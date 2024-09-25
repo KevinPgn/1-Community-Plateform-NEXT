@@ -10,34 +10,31 @@ generator client {
 model User {
   id            String          @id @default(cuid())
   name          String?
-  pseudo        String?
   email         String?         @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  city        String?
-  working       String?
-  school        String?
-  link          String?
-  birthdate     DateTime?
+  pseudo        String?         @unique
   bio           String?
+  location      String?
+  website       String?
   banner        String?
+
+  birthdate     DateTime?
   isAdmin       Boolean         @default(false)
+  isVerified    Boolean         @default(false)
 
-  posts         Post[]
-  comments      Comment[]
-  likes         Like[]
-  bookmarks     Bookmark[]
-  reposts       Repost[]
+  posts Post[]
+  comments Comment[]
+  likes Like[]
+  bookmarks Bookmark[]
+  reposts Repost[]
 
-  friendRequests FriendRequest[] @relation("sender")
-  friendRequestsReceived FriendRequest[] @relation("receiver")
-  friends FriendShip[] @relation("user")
-  friendsOf FriendShip[] @relation("friend")
+  followers Follow[] @relation("Followers")
+  following Follow[] @relation("Following")
 
-  followers     Follow[] @relation("follower")
-  following     Follow[] @relation("following")
+  notifications Notification[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -88,7 +85,8 @@ model Post {
   id String @id @default(cuid())
   title String
   content String
-  
+  image String?
+
   authorId String
   author User @relation(fields: [authorId], references: [id])
   
@@ -96,6 +94,7 @@ model Post {
   likes Like[]
   bookmarks Bookmark[]
   reposts Repost[]
+  tags Tag[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -110,8 +109,8 @@ model Comment {
   post Post @relation(fields: [postId], references: [id])
 
   parentId String?
-  parent Comment? @relation("commentsReplies", fields: [parentId], references: [id])
-  replies Comment[] @relation("commentsReplies")
+  parent Comment? @relation("CommentReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("CommentReplies")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -156,12 +155,21 @@ model Repost {
   @@unique([authorId, postId])
 }
 
+model Tag {
+  id String @id @default(cuid())
+  name String @unique
+  posts Post[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Follow {
   id String @id @default(cuid())
   followerId String
-  follower User @relation(name: "follower", fields: [followerId], references: [id])
+  follower User @relation("Followers", fields: [followerId], references: [id])
   followingId String
-  following User @relation(name: "following", fields: [followingId], references: [id])
+  following User @relation("Following", fields: [followingId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -169,29 +177,14 @@ model Follow {
   @@unique([followerId, followingId])
 }
 
-// Demande d'ami
-model FriendRequest {
-  id String @id @default(cuid())
-  senderId String
-  sender User @relation(name: "sender", fields: [senderId], references: [id])
-  receiverId String
-  receiver User @relation(name: "receiver", fields: [receiverId], references: [id])
-  status String @default("pending")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([senderId, receiverId])
-}
-
-model FriendShip {
+model Notification {
   id String @id @default(cuid())
   userId String
-  user User @relation(name: "user", fields: [userId], references: [id])
-  friendId String
-  friend User @relation(name: "friend", fields: [friendId], references: [id])
-
+  user User @relation(fields: [userId], references: [id])
+  type String
+  data String
+  read Boolean @default(false)
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 
-  @@unique([userId, friendId])
+  @@index([userId])
 }
