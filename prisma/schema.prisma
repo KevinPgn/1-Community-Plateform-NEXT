@@ -24,6 +24,11 @@ model User {
   following     Follow[] @relation("Following")
   notifications Notification[]
   bookmarks Bookmark[]
+  postsWithoutCommunity PostsWithoutCommunity[]
+  commentsPostWithoutCommunity CommentPostWithoutCommunity[]
+  likesLikePostWithoutCommunity LikePostWithoutCommunity[]
+  bookmarksBookmarkPostWithoutCommunity BookmarkPostWithoutCommunity[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
@@ -67,6 +72,64 @@ model VerificationToken {
   expires    DateTime
  
   @@unique([identifier, token])
+}
+
+model PostsWithoutCommunity {
+  id String @id @default(cuid())
+  title String
+  content String?
+  image String?
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  commentsPostWithoutCommunity CommentPostWithoutCommunity[]
+  likesLikePostWithoutCommunity LikePostWithoutCommunity[]
+  bookmarksBookmarkPostWithoutCommunity BookmarkPostWithoutCommunity[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model CommentPostWithoutCommunity {
+  id String @id @default(cuid())
+  content String
+  postWithoutCommunityId String
+  postWithoutCommunity PostsWithoutCommunity @relation(fields: [postWithoutCommunityId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LikePostWithoutCommunity {
+  id String @id @default(cuid())
+  postWithoutCommunityId String
+  postWithoutCommunity PostsWithoutCommunity @relation(fields: [postWithoutCommunityId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([authorId, postWithoutCommunityId])
+}
+
+model BookmarkPostWithoutCommunity {
+  id String @id @default(cuid())
+  postWithoutCommunityId String
+  postWithoutCommunity PostsWithoutCommunity @relation(fields: [postWithoutCommunityId], references: [id], onDelete: Cascade)
+
+  authorId String
+  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([authorId, postWithoutCommunityId])
 }
 
 model Community {
