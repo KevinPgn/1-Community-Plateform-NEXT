@@ -10,24 +10,34 @@ generator client {
 model User {
   id            String          @id @default(cuid())
   name          String?
+  pseudo        String?
   email         String?         @unique
   emailVerified DateTime?
   image         String?
   accounts      Account[]
   sessions      Session[]
-  communities Community[] @relation("CommunityMembers")
-  createdCommunities Community[] @relation("CommunityCreator")
-  posts Post[]
-  comments Comment[]
-  likes Like[]
-  followers     Follow[] @relation("Follower")
-  following     Follow[] @relation("Following")
-  notifications Notification[]
-  bookmarks Bookmark[]
-  postsWithoutCommunity PostsWithoutCommunity[]
-  commentsPostWithoutCommunity CommentPostWithoutCommunity[]
-  likesLikePostWithoutCommunity LikePostWithoutCommunity[]
-  bookmarksBookmarkPostWithoutCommunity BookmarkPostWithoutCommunity[]
+  city        String?
+  working       String?
+  school        String?
+  link          String?
+  birthdate     DateTime?
+  bio           String?
+  banner        String?
+  isAdmin       Boolean         @default(false)
+
+  posts         Post[]
+  comments      Comment[]
+  likes         Like[]
+  bookmarks     Bookmark[]
+  reposts       Repost[]
+
+  friendRequests FriendRequest[] @relation("sender")
+  friendRequestsReceived FriendRequest[] @relation("receiver")
+  friends FriendShip[] @relation("user")
+  friendsOf FriendShip[] @relation("friend")
+
+  followers     Follow[] @relation("follower")
+  following     Follow[] @relation("following")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -74,132 +84,34 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model PostsWithoutCommunity {
-  id String @id @default(cuid())
-  title String
-  content String?
-  image String?
-
-  authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  
-  commentsPostWithoutCommunity CommentPostWithoutCommunity[]
-  likesLikePostWithoutCommunity LikePostWithoutCommunity[]
-  bookmarksBookmarkPostWithoutCommunity BookmarkPostWithoutCommunity[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model CommentPostWithoutCommunity {
-  id String @id @default(cuid())
-  content String
-  postWithoutCommunityId String
-  postWithoutCommunity PostsWithoutCommunity @relation(fields: [postWithoutCommunityId], references: [id], onDelete: Cascade)
-
-  authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
-model LikePostWithoutCommunity {
-  id String @id @default(cuid())
-  postWithoutCommunityId String
-  postWithoutCommunity PostsWithoutCommunity @relation(fields: [postWithoutCommunityId], references: [id], onDelete: Cascade)
-
-  authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([authorId, postWithoutCommunityId])
-}
-
-model BookmarkPostWithoutCommunity {
-  id String @id @default(cuid())
-  postWithoutCommunityId String
-  postWithoutCommunity PostsWithoutCommunity @relation(fields: [postWithoutCommunityId], references: [id], onDelete: Cascade)
-
-  authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([authorId, postWithoutCommunityId])
-}
-
-model Community {
-  id          String @id @default(cuid())
-  name        String
-  description String
-  image       String?
-  banner      String?
-  
-  creatorId   String
-  creator     User @relation("CommunityCreator", fields: [creatorId], references: [id], onDelete: Cascade)
-  
-  members     User[] @relation("CommunityMembers")
-  posts       Post[]
-  tags        Tag[] @relation("CommunityTags")
-  rules       Rule[]
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Tag {
-  id          String @id @default(cuid())
-  name        String @unique
-  communities Community[] @relation("CommunityTags")
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-}
-
-model Rule {
-  id          String @id @default(cuid())
-  title       String
-  description String
-  communityId String
-  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@unique([communityId, title])
-}
-
 model Post {
   id String @id @default(cuid())
   title String
-  content String?
-  image String?
-  communityId String
-  community Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  content String
+  
+  authorId String
+  author User @relation(fields: [authorId], references: [id])
+  
   comments Comment[]
   likes Like[]
   bookmarks Bookmark[]
+  reposts Repost[]
 
-  authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Comment {
   id String @id @default(cuid())
   content String
-  postId String
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-
   authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id])
+  postId String
+  post Post @relation(fields: [postId], references: [id])
+
+  parentId String?
+  parent Comment? @relation("commentsReplies", fields: [parentId], references: [id])
+  replies Comment[] @relation("commentsReplies")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -207,11 +119,10 @@ model Comment {
 
 model Like {
   id String @id @default(cuid())
-  postId String
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-
   authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id])
+  postId String
+  post Post @relation(fields: [postId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -221,11 +132,23 @@ model Like {
 
 model Bookmark {
   id String @id @default(cuid())
-  postId String
-  post Post @relation(fields: [postId], references: [id], onDelete: Cascade)
-
   authorId String
-  author User @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  author User @relation(fields: [authorId], references: [id])
+  postId String
+  post Post @relation(fields: [postId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([authorId, postId])
+}
+
+model Repost {
+  id String @id @default(cuid())
+  authorId String
+  author User @relation(fields: [authorId], references: [id])
+  postId String
+  post Post @relation(fields: [postId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -236,9 +159,9 @@ model Bookmark {
 model Follow {
   id String @id @default(cuid())
   followerId String
-  follower User @relation("Follower", fields: [followerId], references: [id], onDelete: Cascade)
+  follower User @relation(name: "follower", fields: [followerId], references: [id])
   followingId String
-  following User @relation("Following", fields: [followingId], references: [id], onDelete: Cascade)
+  following User @relation(name: "following", fields: [followingId], references: [id])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -246,13 +169,29 @@ model Follow {
   @@unique([followerId, followingId])
 }
 
-model Notification {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  type      String   // e.g., "like", "comment", "follow"
-  content   String
-  read      Boolean  @default(false)
+// Demande d'ami
+model FriendRequest {
+  id String @id @default(cuid())
+  senderId String
+  sender User @relation(name: "sender", fields: [senderId], references: [id])
+  receiverId String
+  receiver User @relation(name: "receiver", fields: [receiverId], references: [id])
+  status String @default("pending")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([senderId, receiverId])
+}
+
+model FriendShip {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(name: "user", fields: [userId], references: [id])
+  friendId String
+  friend User @relation(name: "friend", fields: [friendId], references: [id])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, friendId])
 }
