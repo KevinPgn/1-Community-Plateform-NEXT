@@ -8,10 +8,13 @@ export const Links = () => {
   const pathname = usePathname()
 
   return <div className="flex flex-col gap-4 mt-7">
-    <Link href="/" className={cn("flex items-center p-2 gap-3 w-fit px-3 hover:bg-gray-200/10 rounded-full duration-75", {
+    <Link href="/" className={cn("flex items-center p-2 gap-3 w-fit px-3 hover:bg-gray-200/10 rounded-full duration-75 relative", {
       "text-white font-bold": pathname === "/",
     })}>
-      <Home size={27} fill={pathname === "/" ? "white" : "none"} />
+      <div className="relative">
+        <span className="absolute -top-1 -right-0 w-2 h-2 bg-blue-500 rounded-full"></span>
+        <Home size={27} fill={pathname === "/" ? "white" : "none"} />
+      </div>
       <span className="text-gray-200 text-lg">Accueil</span>
     </Link>
     <Link href="/search" className={cn("flex items-center p-2 gap-3 w-fit px-3 hover:bg-gray-200/10 rounded-full duration-75", {
