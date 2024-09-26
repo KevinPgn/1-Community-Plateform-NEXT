@@ -2,8 +2,12 @@ import Link from "next/link"
 import Image from "next/image"
 import { Links } from "./Links"
 import { PosterBtn } from "./PosterBtn"
+import { Profile } from "./Profile"
+import { getSession } from "@/components/utils/CacheSession"
 
-export const SidebarMenu = () => {
+export const SidebarMenu = async () => {
+  const session = await getSession()
+
   return <div className="w-[230px] py-2 h-screen flex flex-col justify-between">
     <div className="flex flex-col">
         <Link href="/">
@@ -15,6 +19,6 @@ export const SidebarMenu = () => {
     </div>
 
 
-    
+    <Profile session={session?.user}/>
   </div>
 }
