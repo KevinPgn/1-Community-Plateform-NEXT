@@ -6,6 +6,7 @@ import { ThemeProvider } from "@/components/ui/theme-provider";
 import { SidebarMenu } from "@/features/sidebarMenu/SidebarMenu";
 import { getSession } from "@/components/utils/CacheSession";
 import { LoginPage } from "@/features/auth/LoginPage";
+import ReactQueryProvider from "@/lib/ReactQueryProvider";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,7 +43,9 @@ export default async function RootLayout({
             <div className="flex max-w-[1200px] mx-auto">
               <SidebarMenu />
               <div className="flex-1">
-                {children}
+                <ReactQueryProvider>
+                  {children}
+                </ReactQueryProvider>
               </div>
             </div>
           </SessionProvider>
