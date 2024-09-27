@@ -10,7 +10,6 @@ import {ToastContainer, toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { UploadDropzone } from "@uploadthing/react"
 import type { OurFileRouter } from "@/app/api/uploadthing/core"
-import Image from "next/image"
 
 interface FormCreatePostProps {
   userImage: string | null | undefined
@@ -28,14 +27,13 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      const res = await createPost({
+      await createPost({
         ...data,
         image: imageUrl
       });
       router.refresh();
       toast.success("Post created successfully");
       setImageUrl("")
-      console.log(res)
     } catch (error) {
       toast.error("Error creating post");
     }
