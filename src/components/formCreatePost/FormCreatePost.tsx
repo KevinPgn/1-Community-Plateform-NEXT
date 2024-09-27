@@ -28,7 +28,7 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
   const onSubmit = handleSubmit(async (data) => {
     try {
       await createPost({
-        ...data,
+        content: data.content,
         image: imageUrl
       });
       router.refresh();
