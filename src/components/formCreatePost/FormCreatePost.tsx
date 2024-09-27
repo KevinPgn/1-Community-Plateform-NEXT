@@ -106,8 +106,12 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
 
       <ToastContainer />
       {isActive && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
-          <div className="bg-[#161616] p-4 border border-dashed border-white/10 rounded-lg">
+        <div 
+        onClick={() => setIsActive(false)}
+        className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+          <div
+          onClick={(e) => e.stopPropagation()}
+          className="bg-[#161616] p-4 border border-dashed border-white/10 rounded-lg">
             <UploadDropzone<OurFileRouter, "imageUploader">
               endpoint="imageUploader"
           onClientUploadComplete={(res: any) => {
