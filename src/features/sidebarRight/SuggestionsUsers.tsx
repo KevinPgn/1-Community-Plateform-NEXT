@@ -44,7 +44,7 @@ function UserSuggestion({ user }: { user: SuggestedUser }) {
           <p className="text-gray-500 text-xs">{user.handle}</p>
         </div>
       </div>
-      <Button variant="outline" size="sm" className="rounded-full text-black">
+      <Button variant="outline" size="sm" className="rounded-full px-4 text-black">
         Suivre
       </Button>
     </div>
