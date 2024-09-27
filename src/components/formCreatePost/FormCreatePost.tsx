@@ -24,7 +24,7 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
     onClick={() => router.push(`/profile/${userId}`)}
     src={userImage ?? ""} loading="lazy" alt="user image" className="w-10 h-10 rounded-full cursor-pointer" />
     
-    <div className="flex flex-1 flex-col gap-3">
+    <div className="flex flex-1 flex-col">
         <Textarea 
         {...register("content", { 
           maxLength: characterLimit,
