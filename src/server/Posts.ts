@@ -9,7 +9,7 @@ import { cache } from 'react'
 // Create new Post
 export const createPost = authenticatedAction
     .schema(z.object({
-        content: z.string().min(1),
+        content: z.string().min(1).max(280),
         image: z.string().optional(),
     }))
     .action(async ({parsedInput: {content, image}, ctx: {userId}}) => {

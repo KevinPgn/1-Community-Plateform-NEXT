@@ -22,50 +22,61 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
   const remainingCharacters = characterLimit - (content?.length || 0)
 
   const onSubmit = handleSubmit(async (data) => {
-    try{
-        await createPost(data)
-        router.refresh()
-        toast.success("Post created successfully")
+    try {
+      await createPost(data);
+      router.refresh();
+      toast.success("Post created successfully");
     } catch (error) {
-        toast.error("Error creating post")
+      toast.error("Error creating post");
     }
-  })
+  });
 
-  return <form onSubmit={onSubmit} className="border-b flex gap-3 border-white/10 p-4">
-    <img 
-    onClick={() => router.push(`/profile/${userId}`)}
-    src={userImage ?? ""} loading="lazy" alt="user image" className="w-10 h-10 rounded-full cursor-pointer" />
-    
-    <div className="flex flex-1 flex-col">
-        <Textarea 
-        {...register("content", { 
-          maxLength: characterLimit,
-          onChange: (e) => {
-            if (e.target.value.length > characterLimit) {
-              e.target.value = e.target.value.slice(0, characterLimit);
-            }
-          }
-        })} 
-        placeholder="What's happening?"
-        className="resize-none bg-transparent border-0 text-lg focus:outline-none focus:ring-0 p-0 py-2 overflow-hidden"
+  return (
+    <form onSubmit={onSubmit} className="border-b flex gap-3 border-white/10 p-4">
+      <img
+        onClick={() => router.push(`/profile/${userId}`)}
+        src={userImage ?? ""}
+        loading="lazy"
+        alt="user image"
+        className="w-10 h-10 rounded-full cursor-pointer"
+      />
+
+      <div className="flex flex-1 flex-col">
+        <Textarea
+          {...register("content", {
+            maxLength: characterLimit,
+            onChange: (e) => {
+              if (e.target.value.length > characterLimit) {
+                e.target.value = e.target.value.slice(0, characterLimit);
+              }
+            },
+          })}
+          placeholder="What's happening?"
+          className="resize-none bg-transparent border-0 text-lg focus:outline-none focus:ring-0 p-0 py-2 overflow-hidden"
         />
 
         <div className="flex items-center justify-between w-full">
-            <div className="flex items-center gap-3">
-                <ImageIcon className="w-5 h-5 text-blue-500 cursor-pointer" />
-                <span className={`text-sm ${remainingCharacters < 20 ? 'text-red-500' : 'text-gray-500'}`}>
-                    {Math.max(remainingCharacters, 0)}
-                </span>
-            </div>
+          <div className="flex items-center gap-3">
+            <ImageIcon className="w-5 h-5 text-blue-500 cursor-pointer" />
+            <span
+              className={`text-sm ${
+                remainingCharacters < 20 ? "text-red-500" : "text-gray-500"
+              }`}
+            >
+              {Math.max(remainingCharacters, 0)}
+            </span>
+          </div>
 
-            <Button 
+          <Button
             className="bg-blue-500 hover:bg-blue-600 rounded-full px-7 py-2"
-            disabled={content.length === 0}>
-                Post
-            </Button>
+            disabled={content.length === 0}
+          >
+            Post
+          </Button>
         </div>
-    </div>
-    
-    <ToastContainer />
-  </form>
+      </div>
+
+      <ToastContainer />
+    </form>
+  );
 }
