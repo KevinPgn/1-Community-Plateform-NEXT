@@ -7,6 +7,7 @@ import { SidebarMenu } from "@/features/sidebarMenu/SidebarMenu";
 import { getSession } from "@/components/utils/CacheSession";
 import { LoginPage } from "@/features/auth/LoginPage";
 import ReactQueryProvider from "@/lib/ReactQueryProvider";
+import { SidebarRight } from "@/features/sidebarRight/SidebarRight";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -40,11 +41,12 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider>
-            <div className="flex max-w-[1200px] mx-auto">
+            <div className="flex max-w-[1200px] gap-10 mx-auto">
               <SidebarMenu />
               <div className="flex-1">
                 <ReactQueryProvider>
                   {children}
+                  <SidebarRight />
                 </ReactQueryProvider>
               </div>
             </div>
