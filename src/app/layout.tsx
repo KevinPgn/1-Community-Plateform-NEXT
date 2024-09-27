@@ -41,9 +41,9 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider>
-            <div className="flex max-w-[1200px] gap-10 mx-auto">
+            <div className="flex max-w-[1250px] gap-10 mx-auto">
               <SidebarMenu />
-              <div className="flex-1">
+              <div className="flex flex-1 gap-10">
                 <ReactQueryProvider>
                   {children}
                   <SidebarRight />
