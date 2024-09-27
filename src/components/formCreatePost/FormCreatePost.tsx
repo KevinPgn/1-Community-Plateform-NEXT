@@ -21,7 +21,7 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
   const router = useRouter()
   const {register, handleSubmit, watch, formState: {errors}} = useForm()
   const [isActive, setIsActive] = React.useState(false)
-  const [imageUrl, setImageUrl] = React.useState<string | null>(null)
+  const [imageUrl, setImageUrl] = React.useState<string>("")
   const characterLimit = 280
   const content = watch("content", "")
   const remainingCharacters = characterLimit - (content?.length || 0)
@@ -34,7 +34,7 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
       });
       router.refresh();
       toast.success("Post created successfully");
-      setImageUrl(null)
+      setImageUrl("")
       console.log(res)
     } catch (error) {
       toast.error("Error creating post");
@@ -75,7 +75,7 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
             />
             <button
               type="button"
-              onClick={() => setImageUrl(null)}
+              onClick={() => setImageUrl("")}
               className="absolute w-8 h-8 top-2 right-2 bg-blue-500 text-white rounded-full p-1"
             >
               X
