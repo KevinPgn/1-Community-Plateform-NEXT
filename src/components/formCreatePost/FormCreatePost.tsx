@@ -10,6 +10,8 @@ import {ToastContainer, toast} from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
 import { UploadDropzone } from "@uploadthing/react"
 import type { OurFileRouter } from "@/app/api/uploadthing/core"
+import Image from "next/image"
+
 interface FormCreatePostProps {
   userImage: string | null | undefined
   userId: string | null | undefined
@@ -26,10 +28,14 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await createPost({...data, imageUrl});
+      const res = await createPost({
+        ...data,
+        image: imageUrl
+      });
       router.refresh();
       toast.success("Post created successfully");
       setImageUrl(null)
+      console.log(res)
     } catch (error) {
       toast.error("Error creating post");
     }
@@ -59,6 +65,24 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
           className="resize-none bg-transparent border-0 text-lg focus:outline-none focus:ring-0 p-0 py-2 overflow-hidden"
         />
 
+        {imageUrl && (
+          <div className="mt-2 relative w-full h-64 mb-4">
+            <img
+              loading="lazy"
+              src={imageUrl}
+              alt="Uploaded image"
+              className="rounded-lg w-full h-full object-cover"
+            />
+            <button
+              type="button"
+              onClick={() => setImageUrl(null)}
+              className="absolute w-8 h-8 top-2 right-2 bg-blue-500 text-white rounded-full p-1"
+            >
+              X
+            </button>
+          </div>
+        )}
+
         <div className="flex items-center justify-between w-full">
           <div className="flex items-center gap-3">
             <ImageIcon
@@ -84,8 +108,10 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
 
       <ToastContainer />
       {isActive && (
-        <UploadDropzone<OurFileRouter, "imageUploader">
-          endpoint="imageUploader"
+        <div className="fixed top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center">
+          <div className="bg-[#161616] p-4 border border-dashed border-white/10 rounded-lg">
+            <UploadDropzone<OurFileRouter, "imageUploader">
+              endpoint="imageUploader"
           onClientUploadComplete={(res: any) => {
             // Vérifiez le type exact de 'res' ici
             console.log(res);
@@ -99,6 +125,8 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
             toast.error(`Erreur lors du téléchargement de l'image : ${error.message}`);
           }}
         />
+        </div>
+        </div>
       )}
     </form>
   );
