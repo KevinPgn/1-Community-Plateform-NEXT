@@ -18,7 +18,7 @@ const trendingTags: TrendingTag[] = [
 
 function TrendingTagItem({ tag }: { tag: TrendingTag }) {
   return (
-    <div className="py-2 hover:bg-gray-800 cursor-pointer">
+    <div className="py-2 p-2 hover:bg-gray-800 cursor-pointer">
       <div className="flex justify-between items-start">
         <div>
           {tag.category && (
