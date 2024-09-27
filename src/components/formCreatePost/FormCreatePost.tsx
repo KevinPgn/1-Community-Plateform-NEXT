@@ -6,6 +6,8 @@ import { createPost } from "@/server/Posts"
 import React from "react"
 import { Button } from "../ui/button"
 import { Image as ImageIcon } from "lucide-react"
+import {ToastContainer, toast} from "react-toastify"
+import "react-toastify/dist/ReactToastify.css"
 
 interface FormCreatePostProps {
   userImage: string | null | undefined
@@ -19,7 +21,17 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
   const content = watch("content", "")
   const remainingCharacters = characterLimit - (content?.length || 0)
 
-  return <form className="border-b flex gap-3 border-white/10 p-4">
+  const onSubmit = handleSubmit(async (data) => {
+    try{
+        await createPost(data)
+        router.refresh()
+        toast.success("Post created successfully")
+    } catch (error) {
+        toast.error("Error creating post")
+    }
+  })
+
+  return <form onSubmit={onSubmit} className="border-b flex gap-3 border-white/10 p-4">
     <img 
     onClick={() => router.push(`/profile/${userId}`)}
     src={userImage ?? ""} loading="lazy" alt="user image" className="w-10 h-10 rounded-full cursor-pointer" />
@@ -53,5 +65,7 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
             </Button>
         </div>
     </div>
+    
+    <ToastContainer />
   </form>
 }
