@@ -58,6 +58,11 @@ export const getPosts = cache(async () => {
                         pseudo: true,
                     }
                 },
+                tags: {
+                    select: {
+                        name: true
+                    }
+                },
                 _count: {
                     select: {
                         likes: true,
