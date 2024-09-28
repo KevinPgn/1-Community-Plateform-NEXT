@@ -56,7 +56,7 @@ export const Post = ({ post }: PostProps) => {
         </div>
 
         <div className="flex items-center gap-2">
-            <Bookmared isBookmarked={post.isBookmarked} />
+            <Bookmared isBookmarked={post.isBookmarked} postId={post.id} />
             <Share className="w-5 h-5 text-white/50 cursor-pointer" />
         </div>
       </div>

@@ -1,6 +1,6 @@
 "use client"
 import { Heart } from "lucide-react"
-import { likePost } from "@/server/Posts"
+import { likePost } from "./actionPost.action"
 import {useOptimistic} from "react"
 
 interface LikesProps {
