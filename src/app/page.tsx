@@ -15,7 +15,7 @@ export default async function Home() {
       
       <div className="flex flex-col gap-4 mb-10 w-full">
         {posts.posts.map((post: any) => (
-          <Post key={post.id} post={post} />
+          <Post key={post.id} post={post} userId={session?.user?.id} />
         ))}
       </div>
     </div>
