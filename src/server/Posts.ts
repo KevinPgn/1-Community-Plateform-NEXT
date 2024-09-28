@@ -22,8 +22,13 @@ export const createPost = authenticatedAction
                 image,
                 authorId: userId,
                 tags: {
-                    create: hashtags.map((hashtag) => ({
-                        name: hashtag
+                    connectOrCreate: hashtags.map((hashtag) => ({
+                        where: {
+                            name: hashtag
+                        },
+                        create: {
+                            name: hashtag
+                        }
                     }))
                 }
             }

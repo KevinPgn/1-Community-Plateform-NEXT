@@ -27,10 +27,11 @@ export const FormCreatePost = ({userImage, userId}: FormCreatePostProps) => {
 
   const onSubmit = handleSubmit(async (data) => {
     try {
-      await createPost({
+     const test = await createPost({
         content: data.content,
         image: imageUrl
       });
+      console.log(test)
       router.refresh();
       toast.success("Post created successfully");
       setImageUrl("")
