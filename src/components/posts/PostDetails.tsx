@@ -7,7 +7,7 @@ import { Bookmared } from "./Bookmared"
 import {Share, Ellipsis} from "lucide-react"
 import { useRouter } from "next/navigation"
 
-export const Post = ({ post, userId }: any) => {
+export const PostDetails = ({ post, userId }: any) => {
   const displayPseudo = post.author.pseudo ? true : false
   const tags = post.tags.map((tag: any) => tag.name)
   const content = post.content

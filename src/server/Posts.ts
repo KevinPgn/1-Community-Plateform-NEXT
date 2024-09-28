@@ -113,3 +113,91 @@ export const getPosts = cache(async () => {
         totalPosts
     }
 })
+
+// Récupère un post par son id
+export const getPostById = cache(async (postId: string) => {
+    const session = await getSession()
+    const userId = session?.user?.id
+
+    const post = await prisma.post.findUnique({
+        where: {
+            id: postId
+        },
+        select: {
+            id: true,
+            content: true,
+            image: true,
+            createdAt: true,
+            comments: {
+                select: {
+                    id: true,
+                    content: true,
+                    createdAt: true,
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                            pseudo: true,
+                        }
+                    }
+                },
+                take: 10
+            },
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    image: true,
+                    pseudo: true,
+                }
+            },
+            tags: {
+                select: {
+                    name: true
+                }
+            },
+            _count: {
+                select: {
+                    likes: true,
+                    comments: true,
+                    reposts: true,
+                    bookmarks: true,
+                }
+            },
+            likes: {
+                where: {
+                    authorId: userId
+                },
+                select: {
+                    id: true
+                }
+            },
+            reposts: {
+                where: {
+                    authorId: userId
+                },
+                select: {
+                    id: true
+                }
+            },
+            bookmarks: {
+                where: {
+                    authorId: userId
+                },
+                select: {
+                    id: true
+                }
+            }
+        }
+    })
+
+    return {
+        post: post ? {
+          ...post,
+          isLiked: post.likes.length > 0,
+          isReposted: post.reposts.length > 0,
+          isBookmarked: post.bookmarks.length > 0
+        } : null
+    }
+})
