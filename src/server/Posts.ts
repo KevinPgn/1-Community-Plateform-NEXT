@@ -57,6 +57,7 @@ export const getPosts = cache(async () => {
                     select: {
                         likes: true,
                         comments: true,
+                        reposts: true,
                     }
                 },
                 likes: {
