@@ -1,5 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import formatPostCount from '@/components/utils/FormatPostCount';
+import Link from 'next/link';
 
 interface PopularTag {
   id: string;
@@ -24,7 +25,7 @@ const trendingTags: TrendingTag[] = [
 
 function TrendingTagItem({ tag }: { tag: PopularTag }) {
   return (
-    <div className="py-2 p-2 hover:bg-gray-800 cursor-pointer">
+    <Link href={`/hashtags/${encodeURIComponent(tag.name)}`} className="block py-2 p-2 hover:bg-gray-800">
       <div className="flex justify-between items-start">
         <div>
           {tag.name && (
@@ -35,7 +36,7 @@ function TrendingTagItem({ tag }: { tag: PopularTag }) {
         </div>
         <button className="text-gray-500 hover:text-blue-400">···</button>
       </div>
-    </div>
+    </Link>
   );
 }
 
