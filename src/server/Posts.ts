@@ -92,14 +92,13 @@ export const getPosts = cache(async () => {
         prisma.post.count()
     ])
 
-    const postsWithUserActions = posts.map(post => ({
-        ...post,
-        isLiked: post.likes.length > 0,
-        isReposted: post.reposts.length > 0,
-        isBookmarked: post.bookmarks.length > 0
-    }))
-
     return {
-        posts: postsWithUserActions,
+        posts: posts.map(post => ({
+          ...post,
+          isLiked: post.likes.length > 0,
+          isReposted: post.reposts.length > 0,
+          isBookmarked: post.bookmarks.length > 0
+        })),
+        totalPosts
     }
 })
