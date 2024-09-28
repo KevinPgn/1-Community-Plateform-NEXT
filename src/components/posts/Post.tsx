@@ -1,6 +1,8 @@
 import Link from "next/link"
 
 export const Post = ({ post }: { post: any }) => {
+  const displayPseudo = post.author.pseudo ? true : false
+
   return <div className="border-b border-white/10 p-3 flex gap-3">
     <img src={post.author.image} alt={`${post.author.name} avatar`} loading="lazy" className="w-10 h-10 object-cover rounded-full" />
     <div className="flex flex-col gap-2">
@@ -9,7 +11,7 @@ export const Post = ({ post }: { post: any }) => {
             <Link href={`/profile/${post.author.id}`}>
                 <p className="font-bold hover:underline cursor-pointer text-sm">{post.author.name}</p>
             </Link>
-            {post.author.pseudo ? <p className="text-white/50 text-sm">@{post.author.pseudo}</p> : <p className="text-white/50 text-sm">@{post.author.name}</p>}
+            {displayPseudo ? <p className="text-white/50 text-sm">@{post.author.pseudo}</p> : <p className="text-white/50 text-sm">@{post.author.name}</p>}
         </div>
         <p className="text-white/50 text-sm">
         {new Date(post.createdAt).toLocaleDateString()}
