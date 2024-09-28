@@ -1,10 +1,8 @@
 import Link from "next/link"
 
 export const Post = ({ post }: { post: any }) => {
-  return <div className="border-b border-white/10 p-3 flex gap-2">
-    <Link href={`/profile/${post.author.id}`}>
-        <img src={post.author.image} alt="avatar" className="w-10 h-10 rounded-full" />
-    </Link>
+  return <div className="border-b border-white/10 p-3 flex gap-3">
+    <img src={post.author.image} alt={`${post.author.name} avatar`} loading="lazy" className="w-10 h-10 object-cover rounded-full" />
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
         <div className="flex gap-2">
@@ -18,6 +16,7 @@ export const Post = ({ post }: { post: any }) => {
         </p>
       </div>
       <p>{post.content}</p>
+      {post.image && <img src={post.image} alt="image" className="w-full h-full object-cover rounded-lg" />}
     </div>
   </div>
 }
