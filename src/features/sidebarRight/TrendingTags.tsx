@@ -12,7 +12,7 @@ interface TrendingTag {
 const trendingTags: TrendingTag[] = [
   { id: '1', rank: 1, category: 'The Legend of Zelda', tag: '#EchoesOfWisdom', postCount: 33600 },
   { id: '2', rank: 2, tag: 'OQTF', postCount: 88500 },
-  { id: '3', rank: 3, tag: 'Philippine', postCount: 168000 },
+  { id: '3', rank: 3, tag: 'Esports', postCount: 168000 },
   { id: '4', rank: 4, category: 'Gaming', tag: '#IPlayYuGiOhTCG', postCount: 1023 },
 ];
 

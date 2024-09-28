@@ -5,6 +5,7 @@ import { authenticatedAction } from "@/lib/safe-actions"
 import { extractHashtags } from "@/components/utils/extractHashtags"
 import { revalidatePath } from "next/cache"
 import { cache } from 'react'
+import { getSession } from "@/components/utils/CacheSession"
 
 // Create new Post
 export const createPost = authenticatedAction
@@ -33,7 +34,10 @@ export const createPost = authenticatedAction
     })
 
 // Récupère tous les posts mais fait en apparaitre que 10 par page
-export const getPosts = cache(async (page: number, pageSize: number = 10) => {
+export const getPosts = cache(async () => {
+    const session = await getSession()
+    const userId = session?.user?.id
+
     const [posts, totalPosts] = await Promise.all([
         prisma.post.findMany({
             select: {
@@ -53,20 +57,48 @@ export const getPosts = cache(async (page: number, pageSize: number = 10) => {
                         likes: true,
                         comments: true,
                     }
+                },
+                likes: {
+                    where: {
+                        authorId: userId
+                    },
+                    select: {
+                        id: true
+                    }
+                },
+                reposts: {
+                    where: {
+                        authorId: userId
+                    },
+                    select: {
+                        id: true
+                    }
+                },
+                bookmarks: {
+                    where: {
+                        authorId: userId
+                    },
+                    select: {
+                        id: true
+                    }
                 }
             },
-            take: pageSize,
-            skip: (page - 1) * pageSize,
             orderBy: {
                 createdAt: "desc"
-            }
+            },
+            take: 10
         }),
         prisma.post.count()
     ])
 
+    const postsWithUserActions = posts.map(post => ({
+        ...post,
+        isLiked: post.likes.length > 0,
+        isReposted: post.reposts.length > 0,
+        isBookmarked: post.bookmarks.length > 0
+    }))
+
     return {
-        posts,
-        totalPages: Math.ceil(totalPosts / pageSize),
-        currentPage: page,
+        posts: postsWithUserActions,
     }
 })
