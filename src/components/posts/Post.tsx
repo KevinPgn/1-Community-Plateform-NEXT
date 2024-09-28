@@ -11,7 +11,7 @@ export const Post = ({ post }: PostProps) => {
   const tags = post.tags.map((tag: any) => tag.name)
   const content = post.content
 
-  console.log(post.tags)
+
   const renderContent = () => {
     if (!tags || tags.length === 0) return content;
 
@@ -52,7 +52,7 @@ export const Post = ({ post }: PostProps) => {
         <div className="flex items-center gap-10">
             <CommentsCount commentsCount={post._count.comments} />
             <Reposts repostsCount={post._count.reposts} isReposted={post.isReposted}/>
-            <Likes likesCount={post._count.likes} isLiked={post.isLiked}/>
+            <Likes likesCount={post._count.likes} isLiked={post.isLiked} postId={post.id}/>
         </div>
 
         <div className="flex items-center gap-2">

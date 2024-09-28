@@ -2,6 +2,7 @@ import {z} from 'zod';
 
 export interface PostProps {
     post: {
+      id: string;
       author: {
         id: string;
         name: string;
