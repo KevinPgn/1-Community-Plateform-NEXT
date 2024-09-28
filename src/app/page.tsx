@@ -13,7 +13,7 @@ export default async function Home() {
       <TabsPosts />
       <FormCreatePost userImage={session?.user?.image} userId={session?.user?.id} />
       
-      <div className="flex flex-col gap-4 mb-10">
+      <div className="flex flex-col gap-4 mb-10 w-full">
         {posts.posts.map((post: any) => (
           <Post key={post.id} post={post} />
         ))}

@@ -8,10 +8,10 @@ import {Share} from "lucide-react"
 export const Post = ({ post }: { post: any }) => {
   const displayPseudo = post.author.pseudo ? true : false
   
-  return <div className="border-b border-white/10 p-3 flex gap-3">
+  return <div className="border-b border-white/10 p-3 flex gap-3 w-full">
     <img src={post.author.image} alt={`${post.author.name} avatar`} loading="lazy" className="w-10 h-10 object-cover rounded-full" />
-    <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
+    <div className="flex flex-col gap-2 w-full">
+      <div className="flex gap-2 w-full">
         <div className="flex gap-2">
             <Link href={`/profile/${post.author.id}`}>
                 <p className="font-bold hover:underline cursor-pointer text-sm">{post.author.name}</p>
