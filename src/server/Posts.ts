@@ -50,6 +50,7 @@ export const getPosts = cache(async () => {
                         id: true,
                         name: true,
                         image: true,
+                        pseudo: true,
                     }
                 },
                 _count: {
