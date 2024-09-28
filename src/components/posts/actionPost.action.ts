@@ -65,3 +65,34 @@ export const bookmarkPost = authenticatedAction
 
         revalidatePath(`/post/${postId}`)
     })
+
+// Lutilisateur peut reposter un post
+export const repostPost = authenticatedAction
+    .schema(z.object({
+        postId: z.string()
+    }))
+    .action(async ({parsedInput: {postId}, ctx: {userId}}) => {
+        const existingRepost = await prisma.repost.findFirst({
+            where: {
+                postId,
+                authorId: userId
+            }
+        })
+
+        if (existingRepost) {
+            await prisma.repost.delete({
+                where: {
+                    id: existingRepost.id
+                }
+            })
+        } else {
+            await prisma.repost.create({
+                data: {
+                    postId,
+                    authorId: userId
+                }
+            })
+        }
+
+        revalidatePath(`/post/${postId}`)
+    })

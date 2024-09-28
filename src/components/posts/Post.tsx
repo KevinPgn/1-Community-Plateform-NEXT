@@ -51,7 +51,7 @@ export const Post = ({ post }: PostProps) => {
       <div className="flex items-center justify-between mt-3">
         <div className="flex items-center gap-10">
             <CommentsCount commentsCount={post._count.comments} />
-            <Reposts repostsCount={post._count.reposts} isReposted={post.isReposted}/>
+            <Reposts repostsCount={post._count.reposts} isReposted={post.isReposted} postId={post.id}/>
             <Likes count={post._count.likes} isLiked={post.isLiked} postId={post.id}/>
         </div>
 
