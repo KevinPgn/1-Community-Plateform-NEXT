@@ -45,7 +45,9 @@ export const Post = ({ post }: PostProps) => {
         {new Date(post.createdAt).toLocaleDateString()}
         </p>
       </div>
-      <p>{renderContent()}</p>
+      <Link href={`/post/${post.id}`}>
+        <p>{renderContent()}</p>
+      </Link>
       {post.image && <img src={post.image} alt="image" className="w-full h-full object-cover rounded-lg" />}
 
       <div className="flex items-center justify-between mt-3">
