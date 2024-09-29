@@ -5,6 +5,7 @@ import { authenticatedAction } from "@/lib/safe-actions"
 import { extractHashtags } from "@/components/utils/extractHashtags"
 import { revalidatePath } from "next/cache"
 import {cache} from "react"
+import { getSession } from "@/components/utils/CacheSession"
 
 const cachedExtractHashtags = cache(extractHashtags)
 
@@ -39,3 +40,48 @@ export const createPost = authenticatedAction
         revalidatePath("/")
         return post
     })
+
+export const getPosts = cache(async () => {
+    const session = await getSession()
+    const currentUserId = session?.user?.id
+    
+    const posts = await prisma.post.findMany({
+        select: {
+            id: true,
+            content: true,
+            image: true,
+            views: true,
+            createdAt: true,
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    image: true,
+                }
+            },
+            _count: {
+                select: {
+                    comments: true,
+                    likes: true,
+                    reposts: true,
+                }
+            },
+            ...(currentUserId && {
+                likes: {
+                    where: { authorId: currentUserId },
+                    select: { id: true }   
+                },
+                reposts: {
+                    where: { authorId: currentUserId },
+                    select: { id: true }   
+                },
+            }),
+        }
+    })
+
+    return posts.map(({likes, reposts, ...post}) => ({
+        ...post,
+        isLiked: likes.length > 0,
+        isReposted: reposts.length > 0,
+    }))
+})
