@@ -4,7 +4,7 @@ import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { getSession } from "@/components/utils/CacheSession";
-import { LoginPage } from "@/features/auth/LoginPage";
+import LoginPage from "@/features/auth/LoginPage";
 import ReactQueryProvider from "@/lib/ReactQueryProvider";
 import { SidebarLeft } from "@/features/sidebarLeft/SidebarLeft";
 
