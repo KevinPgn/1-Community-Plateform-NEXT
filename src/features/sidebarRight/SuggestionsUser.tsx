@@ -38,7 +38,7 @@ export const SuggestionsUser = () => {
         </div>
       ))}
 
-      <span className="text-sm dark:text-gray-700 text-gray-500 cursor-pointer font-semibold">Voir tout</span>
+      <span className="text-sm dark:text-gray-700 text-gray-500 cursor-pointer hover:underline font-semibold">Voir tout</span>
     </div>
   )
 }
