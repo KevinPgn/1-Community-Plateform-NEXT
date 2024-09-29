@@ -66,6 +66,8 @@ export const getPosts = cache(async () => {
                     reposts: true,
                 }
             },
+
+            // Si l'utilisateur est connecté, ajouter ses likes et reposts à la publication afin d'avoir l'information
             ...(currentUserId && {
                 likes: {
                     where: { authorId: currentUserId },
