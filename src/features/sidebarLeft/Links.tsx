@@ -7,12 +7,12 @@ import {cn} from "@/lib/utils"
 export const Links = () => {
   const pathname = usePathname()
   return <div className="flex flex-col gap-4 p-4 mt-5">
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:bg-white hover:text-black hover:font-semibold duration-75", pathname === "/" && "bg-white text-black font-semibold")}>
+    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/" && "dark:bg-white dark:text-black bg-black text-white font-semibold")}>
       <Compass size={21} />
       <span>Home Feed</span>
     </Link>
 
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:bg-white hover:text-black hover:font-semibold duration-75", pathname === "/messages" && "bg-white text-black font-semibold")}>
+    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/messages" && "bg-white text-black font-semibold")}>
       <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
           <MessageSquare size={21} />
@@ -24,12 +24,12 @@ export const Links = () => {
       </div>  
     </Link>
 
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:bg-white hover:text-black hover:font-semibold duration-75", pathname === "/profile" && "bg-white text-black font-semibold")}>
+    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/profile" && "bg-white text-black font-semibold")}>
       <User size={21} />
       <span>Profile</span>
     </Link>
 
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:bg-white hover:text-black hover:font-semibold duration-75", pathname === "/notifications" && "bg-white text-black font-semibold")}>
+    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/notifications" && "bg-white text-black font-semibold")}>
     <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
           <Bell size={21} />
@@ -41,12 +41,12 @@ export const Links = () => {
       </div> 
     </Link>
 
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:bg-white hover:text-black hover:font-semibold duration-75", pathname === "/media" && "bg-white text-black font-semibold")}>
+    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/media" && "bg-white text-black font-semibold")}>
       <ImageIcon size={21} />
       <span>Media</span>
     </Link>
 
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:bg-white hover:text-black hover:font-semibold duration-75", pathname === "/settings" && "bg-white text-black font-semibold")}>
+    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/settings" && "bg-white text-black font-semibold")}>
       <Settings size={21} />
       <span>Settings</span>
     </Link>

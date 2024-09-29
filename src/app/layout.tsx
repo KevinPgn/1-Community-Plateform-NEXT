@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={"bg-[#000000] text-white " + inter.className}>
+      <body className={inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
