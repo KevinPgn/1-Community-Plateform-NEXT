@@ -28,13 +28,11 @@ model User {
   posts Post[]
   comments Comment[]
   likes Like[]
-  bookmarks Bookmark[]
   reposts Repost[]
+  badges Badge[]
 
   followers Follow[] @relation("Followers")
   following Follow[] @relation("Following")
-
-  notifications Notification[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -85,13 +83,15 @@ model Post {
   id String @id @default(cuid())
   content String
   image String?
+  views Int @default(0)
 
   authorId String
   author User @relation(fields: [authorId], references: [id])
-  
+
+  isPublic Boolean @default(false) // if private, only followers can see it
+ 
   comments Comment[]
   likes Like[]
-  bookmarks Bookmark[]
   reposts Repost[]
   tags Tag[]
 
@@ -99,39 +99,33 @@ model Post {
   updatedAt DateTime @updatedAt
 }
 
+model Tag {
+  id String @id @default(cuid())
+  name String @unique
+  posts Post[]
+}
+
 model Comment {
   id String @id @default(cuid())
   content String
+  image String?
+
   authorId String
   author User @relation(fields: [authorId], references: [id])
+  
+  parentId String?
+  parent Comment? @relation("Replies", fields: [parentId], references: [id])
+  replies Comment[] @relation("Replies")
+
   postId String
   post Post @relation(fields: [postId], references: [id])
-
-  parentId String?
-  parent Comment? @relation("CommentReplies", fields: [parentId], references: [id])
-  replies Comment[] @relation("CommentReplies")
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
 }
 
 model Like {
   id String @id @default(cuid())
   authorId String
   author User @relation(fields: [authorId], references: [id])
-  postId String
-  post Post @relation(fields: [postId], references: [id])
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([authorId, postId])
-}
-
-model Bookmark {
-  id String @id @default(cuid())
-  authorId String
-  author User @relation(fields: [authorId], references: [id])
   postId String
   post Post @relation(fields: [postId], references: [id])
 
@@ -145,6 +139,7 @@ model Repost {
   id String @id @default(cuid())
   authorId String
   author User @relation(fields: [authorId], references: [id])
+
   postId String
   post Post @relation(fields: [postId], references: [id])
 
@@ -154,19 +149,11 @@ model Repost {
   @@unique([authorId, postId])
 }
 
-model Tag {
-  id String @id @default(cuid())
-  name String @unique
-  posts Post[]
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-}
-
 model Follow {
   id String @id @default(cuid())
   followerId String
   follower User @relation("Followers", fields: [followerId], references: [id])
+
   followingId String
   following User @relation("Following", fields: [followingId], references: [id])
 
@@ -176,14 +163,15 @@ model Follow {
   @@unique([followerId, followingId])
 }
 
-model Notification {
-  id String @id @default(cuid())
-  userId String
-  user User @relation(fields: [userId], references: [id])
-  type String
-  data String
-  read Boolean @default(false)
-  createdAt DateTime @default(now())
+// Badge system
+model Badge {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  
+  icon        String
+  users       User[]
 
-  @@index([userId])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
