@@ -3,11 +3,10 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "@/components/ui/theme-provider";
-import { SidebarMenu } from "@/features/sidebarMenu/SidebarMenu";
 import { getSession } from "@/components/utils/CacheSession";
 import { LoginPage } from "@/features/auth/LoginPage";
 import ReactQueryProvider from "@/lib/ReactQueryProvider";
-import { SidebarRight } from "@/features/sidebarRight/SidebarRight";
+import { SidebarLeft } from "@/features/sidebarLeft/SidebarLeft";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -41,15 +40,12 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <SessionProvider>
-            <div className="flex max-w-[1250px] gap-10 mx-auto">
-              <SidebarMenu />
-              <div className="flex flex-1 gap-10">
-                <ReactQueryProvider>
-                  {children}
-                  <SidebarRight />
-                </ReactQueryProvider>
+            <div className="flex">
+              <ReactQueryProvider>
+                <SidebarLeft />
+                {children}
+              </ReactQueryProvider>
               </div>
-            </div>
           </SessionProvider>
         </ThemeProvider>
       </body>
