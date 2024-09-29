@@ -76,7 +76,11 @@ export const getPosts = cache(async () => {
                     select: { id: true }   
                 },
             }),
-        }
+        },
+        take: 10,
+        orderBy: {
+            createdAt: "desc",
+        },
     })
 
     return posts.map(({likes, reposts, ...post}) => ({
