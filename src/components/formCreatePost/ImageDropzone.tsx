@@ -16,6 +16,7 @@ export const ImageDropzone = ({setImage, image}: {setImage: (image: string) => v
     ) : (
       <UploadDropzone<OurFileRouter, "imageUploader">
         endpoint="imageUploader"
+        className="dark:border-white/20 border-black/20 border-[1px] rounded-md p-2"
         onClientUploadComplete={(res) => {
           console.log(res)
           setImage(res[0].url)
