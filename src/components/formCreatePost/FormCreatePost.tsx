@@ -1,10 +1,12 @@
 "use client"
 import {useState} from "react"
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs" // Post tab and Image Tab
-import { UploadDropzone } from "@uploadthing/react"
-import { OurFileRouter } from "@/app/api/uploadthing/core"
 import { ContentPost } from "@/components/formCreatePost/ContentPost"
 import {useForm} from "react-hook-form"
+import { SelectVisibility } from "./SelectVisibility"
+import { ImageDropzone } from "./ImageDropzone"
+import { createPost } from "@/server/Post"
+import { Button } from "@/components/ui/button"
 
 export const FormCreatePost = () => {
   const [content, setContent] = useState("")
@@ -17,8 +19,16 @@ export const FormCreatePost = () => {
       visibility: "private"
     }
   })
+
+  const onSubmit = async (data: any) => {
+    try {
+      await createPost({content, isPublic, image})
+    } catch (error) {
+      console.log(error)
+    }
+  }
   
-  return <form className="w-full">
+  return <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
     <h2 className="text-2xl font-bold mb-5">Create Post</h2>
         <Tabs defaultValue="post" className="w-full">
             <TabsList className="w-full mb-5">
@@ -27,35 +37,11 @@ export const FormCreatePost = () => {
             </TabsList>
             <TabsContent value="post">
                 <ContentPost content={content} setContent={setContent} />
-
-                <div className="w-full flex flex-col gap-2">
-                    <label htmlFor="visibility" className="text-sm font-medium">Post Visibility</label>
-                    <select 
-                        id="visibility" 
-                        name="visibility" 
-                        className="w-full h-10 px-3 py-2 text-sm rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
-                        value={isPublic ? "public" : "private"}
-                        onChange={(e) => setIsPublic(e.target.value === "public")}
-                    >
-                        <option value="public">Public</option>
-                        <option value="private">Private</option>
-                    </select>
-                </div>
+                <SelectVisibility visibility={isPublic} setVisibility={setIsPublic} />
+                <Button type="submit" className="w-full mt-5">Create Post</Button>
             </TabsContent>
             <TabsContent value="image">
-                <div className="w-full flex flex-col gap-2">
-                    <label htmlFor="image" className="text-sm font-medium">Upload Image</label>
-                    <UploadDropzone<OurFileRouter, "imageUploader">
-                    endpoint="imageUploader"
-                onClientUploadComplete={(res) => {
-                    console.log(res)
-                    setImage(res[0].url)
-                }}
-                onUploadError={(error: Error) => {
-                        console.log(error)
-                    }}
-                    />
-                </div>
+                <ImageDropzone setImage={setImage} image={image} />
             </TabsContent>
         </Tabs>
   </form>
