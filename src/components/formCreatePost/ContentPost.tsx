@@ -1,10 +1,8 @@
 import { Textarea } from "@/components/ui/textarea"
-import {useDebounce} from "use-debounce"
 import { useState } from "react"
 import {cn} from "@/lib/utils"
 
 export const ContentPost = ({content, setContent}: {content: string, setContent: (content: string) => void}) => {
-  const [debouncedValue] = useDebounce(content, 500)
   const limitChar = 280
   const [charCount, setCharCount] = useState(0)
 
