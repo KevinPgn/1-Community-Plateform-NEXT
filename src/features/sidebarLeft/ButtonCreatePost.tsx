@@ -2,7 +2,7 @@
 import { Button } from "@/components/ui/button"
 import { Plus } from "lucide-react"
 import {useState} from "react"
-import { FormCreatePost } from "./FormCreatePost"
+import { FormCreatePost } from "../../components/formCreatePost/FormCreatePost"
 export const ButtonCreatePost = () => {
   const [isOpen, setIsOpen] = useState(false)
 

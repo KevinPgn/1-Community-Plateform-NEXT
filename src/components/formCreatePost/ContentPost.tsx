@@ -1,6 +1,7 @@
 import { Textarea } from "@/components/ui/textarea"
 import {useDebounce} from "use-debounce"
 import { useState } from "react"
+import {cn} from "@/lib/utils"
 
 export const ContentPost = ({content, setContent}: {content: string, setContent: (content: string) => void}) => {
   const [debouncedValue] = useDebounce(content, 500)
@@ -13,10 +14,17 @@ export const ContentPost = ({content, setContent}: {content: string, setContent:
       <div className="w-full flex flex-col gap-2">
         <Textarea
           value={content}
-          onChange={(e) => setContent(e.target.value)}
+          onChange={(e) => {
+            const newContent = e.target.value.slice(0, limitChar);
+            setContent(newContent);
+            setCharCount(newContent.length);
+          }}
           id="content"
           placeholder="What's on your mind?"
-          className="w-full min-h-[150px] resize-none"
+          className={cn("w-full min-h-[150px] resize-none", {
+            "border-red-500 text-red-500": charCount === limitChar,
+          })}
+          maxLength={limitChar}
         />
         <p className="text-sm text-muted-foreground">
           {charCount}/{limitChar}
