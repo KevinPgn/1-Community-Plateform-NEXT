@@ -22,16 +22,16 @@ function formatCount(count: number): string {
 
 export function Tendances() {
   return (
-    <Card className="w-full bg-secondary/30 backdrop-blur-sm">
+    <Card className="w-full bg-secondary/20 backdrop-blur-sm border-gray-500/20">
       <CardHeader>
         <CardTitle className="text-xl font-bold">Top 10 Tendances</CardTitle>
       </CardHeader>
       <CardContent>
-        <ul className="space-y-3">
+        <ul className="space-y-5">
           {trendingData.map((item, index) => (
-            <li key={index} className="border-b cursor-pointer hover:bg-secondary/30 p-2 rounded-md transition-all duration-300 border-secondary pb-2 last:border-b-0">
+            <li key={index} className="border-b flex flex-col gap-1 cursor-pointer hover:bg-secondary/30 p-2 rounded-md transition-all duration-300 border-secondary pb-2 last:border-b-0">
               <p className="text-sm text-muted-foreground">{item.category}</p>
-              <h3 className="text-lg font-semibold">#{item.tag}</h3>
+              <h3 className="text-md font-semibold">#{item.tag}</h3>
               <div className="flex items-center space-x-2">
                 <Badge variant="secondary" className="text-xs">
                   {formatCount(item.count)} posts
