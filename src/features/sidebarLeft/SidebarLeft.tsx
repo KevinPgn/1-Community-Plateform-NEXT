@@ -6,7 +6,7 @@ import { ProfileInformations } from "./ProfileInformations"
 export const SidebarLeft = async () => {
   const session = await getSession()
 
-  return <aside className="h-screen w-[280px] flex flex-col justify-between pb-10 max-xl:hidden sticky top-0 rounded-tr-lg rounded-br-lg bg-white dark:bg-[#141414]">
+  return <aside className="w-[280px] flex flex-col justify-between pb-10 max-xl:hidden sticky top-0 rounded-tr-lg rounded-br-lg bg-white dark:bg-[#121212]">
     <div className="flex flex-col">
         <div className="relative">
         <img src={session?.user?.image || ""} loading="lazy" alt={session?.user?.name || ""} width={80} height={80} className="rounded-full mx-auto mt-7 max-md:w-[50px] max-md:h-[50px]" />
@@ -21,7 +21,7 @@ export const SidebarLeft = async () => {
         <ButtonCreatePost />
     </div>
 
-    <div className="flex flex-col gap-1 mt-10 px-5">
+    <div className="flex flex-col gap-1 px-5">
         <ProfileInformations userSession={session}/>
     </div>
   </aside>
