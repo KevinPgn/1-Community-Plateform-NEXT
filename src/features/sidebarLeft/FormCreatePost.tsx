@@ -2,13 +2,12 @@
 import {useState} from "react"
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs" // Post tab and Image Tab
 import { Textarea } from "@/components/ui/textarea"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { UploadDropzone } from "@uploadthing/react"
 import { OurFileRouter } from "@/app/api/uploadthing/core"
 export const FormCreatePost = () => {
-    const [content, setContent] = useState("")
-    const [isPublic, setIsPublic] = useState(false)
-    const [image, setImage] = useState<string>("")
+  const [content, setContent] = useState("")
+  const [isPublic, setIsPublic] = useState(false)
+  const [image, setImage] = useState<string>("")
 
   return <div className="w-full">
     <h2 className="text-2xl font-bold mb-5">Create Post</h2>
@@ -29,16 +28,17 @@ export const FormCreatePost = () => {
                     />
                 </div>
                 <div className="w-full flex flex-col gap-2">
-                    <label htmlFor="category" className="text-sm font-medium">Post Visibility</label>
-                    <Select>
-                        <SelectTrigger className="w-full">
-                        <SelectValue placeholder="Select a category" />
-                    </SelectTrigger>
-                    <SelectContent>
-                        <SelectItem value="public">Public</SelectItem>
-                        <SelectItem value="private">Private</SelectItem>
-                        </SelectContent>
-                    </Select>
+                    <label htmlFor="visibility" className="text-sm font-medium">Post Visibility</label>
+                    <select 
+                        id="visibility" 
+                        name="visibility" 
+                        className="w-full h-10 px-3 py-2 text-sm rounded-md border border-input bg-background focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                        value={isPublic ? "public" : "private"}
+                        onChange={(e) => setIsPublic(e.target.value === "public")}
+                    >
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
                 </div>
             </TabsContent>
             <TabsContent value="image">
