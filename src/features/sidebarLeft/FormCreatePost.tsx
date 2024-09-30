@@ -1,15 +1,23 @@
 "use client"
 import {useState} from "react"
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs" // Post tab and Image Tab
-import { Textarea } from "@/components/ui/textarea"
 import { UploadDropzone } from "@uploadthing/react"
 import { OurFileRouter } from "@/app/api/uploadthing/core"
 import { ContentPost } from "@/components/formCreatePost/ContentPost"
+import {useForm} from "react-hook-form"
+
 export const FormCreatePost = () => {
   const [content, setContent] = useState("")
   const [isPublic, setIsPublic] = useState(false)
   const [image, setImage] = useState<string>("")
-
+  
+  const {register, handleSubmit, formState: {errors}} = useForm({
+    defaultValues: {
+      content: "",
+      visibility: "private"
+    }
+  })
+  
   return <form className="w-full">
     <h2 className="text-2xl font-bold mb-5">Create Post</h2>
         <Tabs defaultValue="post" className="w-full">
