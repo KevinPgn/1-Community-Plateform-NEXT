@@ -4,12 +4,13 @@ import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs" //
 import { Textarea } from "@/components/ui/textarea"
 import { UploadDropzone } from "@uploadthing/react"
 import { OurFileRouter } from "@/app/api/uploadthing/core"
+import { ContentPost } from "@/components/formCreatePost/ContentPost"
 export const FormCreatePost = () => {
   const [content, setContent] = useState("")
   const [isPublic, setIsPublic] = useState(false)
   const [image, setImage] = useState<string>("")
 
-  return <div className="w-full">
+  return <form className="w-full">
     <h2 className="text-2xl font-bold mb-5">Create Post</h2>
         <Tabs defaultValue="post" className="w-full">
             <TabsList className="w-full mb-5">
@@ -17,16 +18,8 @@ export const FormCreatePost = () => {
                 <TabsTrigger value="image" className="w-full">Image</TabsTrigger>
             </TabsList>
             <TabsContent value="post">
-                <div className="w-full flex flex-col gap-2 mb-5">
-                    <label htmlFor="content" className="text-sm font-medium">Post Content</label>
-                    <Textarea
-                    id="content"
-                    placeholder="What's on your mind?"
-                    value={content}
-                    onChange={(e) => setContent(e.target.value)}
-                    className="w-full min-h-[150px]"
-                    />
-                </div>
+                <ContentPost content={content} setContent={setContent} />
+
                 <div className="w-full flex flex-col gap-2">
                     <label htmlFor="visibility" className="text-sm font-medium">Post Visibility</label>
                     <select 
@@ -57,5 +50,5 @@ export const FormCreatePost = () => {
                 </div>
             </TabsContent>
         </Tabs>
-  </div>
+  </form>
 }
