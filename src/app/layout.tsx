@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={"max-w-[1700px] mx-auto relative " + inter.className}>
+      <body className={"max-w-[1700px] mx-auto " + inter.className}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
@@ -41,12 +41,6 @@ export default async function RootLayout({
         >
           <SessionProvider>
             <div className="flex">
-                <div className="fixed z-10 inset-0 pointer-events-none">
-                  <div className="absolute -top-5 -left-5 w-32 h-32 bg-red-500/20 rounded-full blur-md animate-pulse"></div>
-                  <div className="absolute -top-5 -right-5 w-32 h-32 bg-blue-500/20 rounded-full blur-md animate-pulse"></div>
-                  <div className="absolute -bottom-5 -left-5 w-32 h-32 bg-green-500/20 rounded-full blur-md animate-pulse"></div>
-                  <div className="absolute -bottom-5 -right-5 w-32 h-32 bg-yellow-500/20 rounded-full blur-md animate-pulse"></div>
-                </div>
               <ReactQueryProvider>
                 <SidebarLeft />
                 {children}
