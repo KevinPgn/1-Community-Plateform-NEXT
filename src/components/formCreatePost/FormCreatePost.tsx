@@ -13,7 +13,7 @@ export const FormCreatePost = () => {
   const [isPublic, setIsPublic] = useState(false)
   const [image, setImage] = useState<string>("")
   
-  const {register, handleSubmit, formState: {errors}} = useForm({
+  const {handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
       content: "",
       visibility: "private"
