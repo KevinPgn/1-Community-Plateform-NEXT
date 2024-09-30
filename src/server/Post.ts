@@ -52,6 +52,7 @@ export const getPosts = cache(async () => {
             image: true,
             views: true,
             createdAt: true,
+            isPublic: true,
             author: {
                 select: {
                     id: true,
