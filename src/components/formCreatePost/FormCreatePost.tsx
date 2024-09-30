@@ -16,14 +16,14 @@ export const FormCreatePost = ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen:
   const {handleSubmit, formState: {errors}} = useForm({
     defaultValues: {
       content: "",
-      visibility: "private"
+      visibility: "public"
     }
   })
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async () => {
     try {
       await createPost({content, isPublic, image})
-      setIsOpen(false)
+      setIsOpen(!isOpen)
     } catch (error) {
       console.log(error)
     }
