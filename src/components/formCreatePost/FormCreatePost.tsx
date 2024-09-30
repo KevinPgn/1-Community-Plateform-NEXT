@@ -8,7 +8,7 @@ import { ImageDropzone } from "./ImageDropzone"
 import { createPost } from "@/server/Post"
 import { Button } from "@/components/ui/button"
 
-export const FormCreatePost = () => {
+export const FormCreatePost = ({isOpen, setIsOpen}: {isOpen: boolean, setIsOpen: (isOpen: boolean) => void}) => {
   const [content, setContent] = useState("")
   const [isPublic, setIsPublic] = useState(false)
   const [image, setImage] = useState<string>("")
@@ -23,6 +23,7 @@ export const FormCreatePost = () => {
   const onSubmit = async (data: any) => {
     try {
       await createPost({content, isPublic, image})
+      setIsOpen(false)
     } catch (error) {
       console.log(error)
     }
