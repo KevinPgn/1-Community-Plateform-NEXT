@@ -1,7 +1,6 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
 import { getTrendingsTags } from "./sidebarRight.action";
 import { Suspense } from "react";
+import Link from "next/link";
 
 async function TrendingTags() {
   const trendingTags = await getTrendingsTags();
@@ -9,16 +8,13 @@ async function TrendingTags() {
   return (
     <ul className="space-y-5">
       {trendingTags.map((tag, index) => (
-        <li key={index} className="border-b flex flex-col gap-1 cursor-pointer hover:bg-secondary/30 p-2 rounded-md transition-all duration-300 border-secondary pb-2 last:border-b-0">
-          <h3 className="text-md font-semibold">#{tag.name}</h3>
-          <p className="text-sm text-muted-foreground">
-            {tag._count.posts} posts
-          </p>
-          <div className="flex items-center space-x-2">
-            <Badge variant="secondary" className="text-xs">
-              Trending
-            </Badge>
-          </div>
+        <li key={index} className="dark:bg-[#181818] p-3 px-5 rounded-md shadow-md hover:scale-105 transition-all duration-300 cursor-pointer">
+          <Link href={`/search?query=%23${tag.name}`}>
+            <h3 className="text-md font-semibold">#{tag.name}</h3>
+            <p className="text-sm text-muted-foreground">
+              {tag._count.posts} posts
+            </p>
+          </Link>
         </li>
       ))}
     </ul>
@@ -27,15 +23,11 @@ async function TrendingTags() {
 
 export function Tendances() {
   return (
-    <Card className="w-full bg-secondary/20 backdrop-blur-sm border-gray-500/20">
-      <CardHeader>
-        <CardTitle className="text-xl font-bold">Top 5 Tendances</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <Suspense fallback={<div>Loading trending tags...</div>}>
-          <TrendingTags />
-        </Suspense>
-      </CardContent>
-    </Card>
+    <>
+      <h2 className="text-lg font-semibold mb-2">Top Tendances</h2>
+      <Suspense fallback={<div className="h-full w-full bg-gray-100 animate-pulse"></div>}>
+        <TrendingTags />
+      </Suspense>
+    </>
   );
 }
