@@ -1,6 +1,7 @@
 export const SelectVisibility = ({visibility, setVisibility}: {visibility: boolean, setVisibility: (visibility: boolean) => void}) => {
   return <div className="w-full flex flex-col gap-2">
   <label htmlFor="visibility" className="text-sm font-medium">Post Visibility</label>
+  <span className="text-xs text-muted-foreground">Public: everyone can see your post <br /> Private: only you and your followers can see the post</span>
   <select 
       id="visibility" 
       name="visibility" 
