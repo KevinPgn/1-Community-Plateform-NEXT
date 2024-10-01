@@ -24,22 +24,22 @@ export const Post = ({post}: {post: any}) => {
     </div>
 
     <div className="w-[220px] p-3 dark:bg-[#181818] shadow-md dark:border-zinc-800 border-zinc-200 border rounded-full flex items-center justify-between">
-        <div className="flex items-center gap-1 cursor-pointer">
-            <Flame size={19} className="fill-red-500 text-red-500"/>
-            <span className="text-sm dark:text-gray-500 text-gray-500">{post._count.likes}</span>
+        <div className="flex items-center gap-1 cursor-pointer group">
+            <Flame size={19} className="fill-red-500 text-red-500 group-hover:fill-red-800 group-hover:text-red-800 duration-300"/>
+            <span className="text-sm text-gray-400">{post._count.likes}</span>
         </div>
 
-        <div className="flex items-center gap-2 cursor-pointer">
-            <MessageSquare size={19} className="text-blue-500 fill-blue-500"/>
-            <span className="text-sm dark:text-gray-500 text-gray-500">{post._count.comments}</span>
+        <div className="flex items-center gap-2 cursor-pointer group">
+            <MessageSquare size={19} className="text-blue-500 fill-blue-500 group-hover:text-blue-800 group-hover:fill-blue-800 duration-300"/>
+            <span className="text-sm text-gray-400">{post._count.comments}</span>
         </div>
 
-        <div className="flex items-center gap-2 cursor-pointer">
-            <Repeat2 size={19} className="text-green-500 fill-green-500"/>
-            <span className="text-sm dark:text-gray-500 text-gray-500">{post._count.reposts}</span>
+        <div className="flex items-center gap-2 cursor-pointer group">
+            <Repeat2 size={19} className="text-green-500 fill-green-500 group-hover:text-green-800 group-hover:fill-green-800 duration-300"/>
+            <span className="text-sm text-gray-400">{post._count.reposts}</span>
         </div>
 
-        <Share2 size={19} className="cursor-pointer text-gray-500"/>
+        <Share2 size={19} className="cursor-pointer text-gray-500 hover:text-yellow-500 duration-300"/>
     </div>
   </div>
 }
