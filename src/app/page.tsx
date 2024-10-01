@@ -8,7 +8,7 @@ export default async function Home({searchParams}: {searchParams: {filter: strin
 
   return (
     <div className="flex flex-1 justify-center">
-      <div className="flex-1 p-5 max-w-[700px] mx-auto">
+      <div className="flex-1 p-5 max-w-[800px] mx-auto">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-bold">Home Feeds</h2>
             <HomeFeeds />
