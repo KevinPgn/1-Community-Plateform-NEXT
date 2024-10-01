@@ -67,6 +67,13 @@ export const getPosts = cache(async () => {
                 select: {
                     id: true,
                     content: true,
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                        }
+                    }
                 },
                 take: 1,
             },
