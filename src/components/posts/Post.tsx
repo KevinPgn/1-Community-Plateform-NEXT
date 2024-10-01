@@ -2,8 +2,18 @@ import { formatPostDate } from "../utils/FormatDate";
 import Link from "next/link";
 import { Flame, MessageSquare, Share2, Repeat2} from "lucide-react";
 
-export const Post = ({post}: {post: any}) => {
-  return <div className="flex flex-col gap-4 justify-end w-full items-end mb-3">
+export const Post = ({post}: {post: any}) => {  
+  return <div className="flex flex-col gap-4 justify-end w-full items-end relative mb-5">
+    {post.comments.length > 0 && (
+        <div className="absolute max-sm:hidden w-[300px] -bottom-5 left-8 bg-[#181818] text-white p-2 rounded-lg text-sm max-w-[80%] z-10">
+            <div className="flex items-center gap-2 mb-2">
+                <img src={post.comments[0].author.image} alt={post.comments[0].author.name} className="w-7 h-7 rounded-full" />
+                <p className="font-bold">{post.comments[0].author.name}</p>
+            </div>
+          <p>{post.comments[0].content.length > 100 ? `${post.comments[0].content.slice(0, 100)}...` : post.comments[0].content}</p>
+          <div className="absolute -top-5 right-4 w-0.5 z-20 h-[10px] bg-[#181818] transform translate-y-full"></div>
+        </div>
+      )}
     <div className="dark:bg-[#181818] shadow-xl w-full hover:dark:bg-[#202020] hover:bg-gray-100 transition-all duration-300 px-5 rounded-3xl border dark:border-zinc-800 border-zinc-200 p-4 flex gap-4">
         <img src={post.author.image} alt={post.author.name} className="w-10 h-10 rounded-full" />
         
