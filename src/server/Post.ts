@@ -60,6 +60,13 @@ export const getPosts = cache(async () => {
                     image: true,
                 }
             },
+            comments: {
+                select: {
+                    id: true,
+                    content: true,
+                },
+                take: 1,
+            },
             _count: {
                 select: {
                     comments: true,
