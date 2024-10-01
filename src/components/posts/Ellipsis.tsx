@@ -1,12 +1,9 @@
 "use client"
 import { Ellipsis as EllipsisIcon } from "lucide-react"
-import {useState} from "react"
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover"
 import { Edit, Trash } from "lucide-react"
 
 export const Ellipsis = ({postId}: {postId: string}) => {
-  const [isOpen, setIsOpen] = useState(false)
-
   return <Popover>
     <PopoverTrigger asChild>
       <div className="absolute cursor-pointer -top-5 right-5 shadow-md hover:dark:bg-[#202020] hover:bg-gray-100 duration-75 dark:bg-[#181818] p-2 rounded-lg group">
