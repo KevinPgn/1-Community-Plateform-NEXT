@@ -2,6 +2,8 @@ import { getSession } from "@/components/utils/CacheSession"
 import { Links } from "./Links"
 import { ButtonCreatePost } from "./ButtonCreatePost"
 import { ProfileInformations } from "./ProfileInformations"
+import { Menu } from "lucide-react"
+// todo: add the sidebar for mobile support
 
 export const SidebarLeft = async () => {
   const session = await getSession()
