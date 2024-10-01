@@ -5,10 +5,12 @@ import { Flame, MessageSquare, Share2, Repeat2} from "lucide-react";
 export const Post = ({post}: {post: any}) => {  
   return <div className="flex flex-col gap-4 justify-end w-full items-end relative mb-5">
     {post.comments.length > 0 && (
-        <div className="absolute max-sm:hidden w-[300px] -bottom-5 left-8 bg-[#181818] text-white p-2 rounded-lg text-sm max-w-[80%] z-10">
+        <div className="absolute max-sm:hidden w-[300px] -bottom-5 left-8 bg-[#181818] text-white p-2 rounded-lg text-sm max-w-[80%] z-10 hover:bg-[#202020] transition-all duration-300">
             <div className="flex items-center gap-2 mb-2">
                 <img src={post.comments[0].author.image} alt={post.comments[0].author.name} className="w-7 h-7 rounded-full" />
-                <p className="font-bold">{post.comments[0].author.name}</p>
+                <Link href={`/profile/${post.comments[0].author.id}`} className="hover:underline">
+                  <p className="font-bold">{post.comments[0].author.name}</p>
+                </Link>
             </div>
           <p>{post.comments[0].content.length > 100 ? `${post.comments[0].content.slice(0, 100)}...` : post.comments[0].content}</p>
           <div className="absolute -top-5 right-4 w-0.5 z-20 h-[10px] bg-[#181818] transform translate-y-full"></div>
