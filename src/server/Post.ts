@@ -46,6 +46,9 @@ export const getPosts = cache(async () => {
     const currentUserId = session?.user?.id
     
     const posts = await prisma.post.findMany({
+        where: {
+            isPublic: true,
+        },
         select: {
             id: true,
             content: true,
