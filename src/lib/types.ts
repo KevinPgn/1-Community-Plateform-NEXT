@@ -1,25 +1,20 @@
 import {z} from 'zod';
 
 export interface PostProps {
-    post: {
+  post: {
+    author: {
       id: string;
-      author: {
-        id: string;
-        name: string;
-        image: string;
-        pseudo?: string;
-      };
-      createdAt: string;
-      content: string;
-      image?: string;
-      tags: string[];
-      _count: {
-        comments: number;
-        reposts: number;
-        likes: number;
-      };
-      isLiked: boolean;
-      isReposted: boolean;
-      isBookmarked: boolean;
-    }
-  }
+      name: string;
+      image: string;
+      username?: string;
+    };
+    content: string;
+    createdAt: string;
+    image?: string;
+    _count: {
+      likes: number;
+      comments: number;
+      reposts: number;
+    };
+  };
+}

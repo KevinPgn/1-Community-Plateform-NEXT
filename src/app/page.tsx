@@ -1,11 +1,9 @@
 import { HomeFeeds } from "@/components/homeFeeds/HomeFeeds";
-import { Post } from "@/components/posts/Post";
+import PostList from "@/components/posts/PostList";
 import { SidebarRight } from "@/features/sidebarRight/SidebarRight";
-import { getPosts } from "@/server/Post";
+import { Suspense } from "react";
 
-export default async function Home({searchParams}: {searchParams: {filter: string}}) {
-  const postsFeed = await getPosts();
-
+export default function Home({searchParams}: {searchParams: {filter: string}}) {
   return (
     <div className="flex flex-1 justify-center">
       <div className="flex-1 p-5 max-w-[800px] mx-auto">
@@ -15,9 +13,9 @@ export default async function Home({searchParams}: {searchParams: {filter: strin
         </div>
 
         <div className="flex flex-col gap-4 mt-10">
-            {postsFeed.map((post) => (
-              <Post key={post.id} post={post} />
-            ))}
+            <Suspense fallback={<div>Loading...</div>}>
+                <PostList />
+            </Suspense>
         </div>
 
       </div>
