@@ -1,9 +1,9 @@
 import { formatPostDate } from "../utils/FormatDate";
 import Link from "next/link";
-import { Flame, MessageSquare, Share2, Repeat2} from "lucide-react";
-import ConfettiExplosion from 'react-confetti-explosion';
+import { MessageSquare, Share2, Repeat2} from "lucide-react";
 import { Ellipsis } from "./Ellipsis"
 import { getSession } from "@/components/utils/CacheSession"
+import { LikePost } from "./LikePost";
 
 export const Post = async ({post}: {post: any}) => {  
   const session = await getSession()
@@ -25,7 +25,7 @@ export const Post = async ({post}: {post: any}) => {
         <img src={post.author.image} alt={post.author.name} className="w-10 h-10 rounded-full" />
 
         {session?.user?.id === post.author.id && <Ellipsis />}
-        
+
         <div className="flex flex-col gap-2 w-full">
             <div className="flex items-center gap-2 justify-between">
                 <div className="flex items-center gap-2">
@@ -43,13 +43,7 @@ export const Post = async ({post}: {post: any}) => {
     </div>
 
     <div className="w-[220px] p-3 dark:bg-[#181818] shadow-md dark:border-zinc-800 border-zinc-200 border rounded-full flex items-center justify-between">
-      <div className="flex items-center gap-1 cursor-pointer group">
-        <div className="relative">
-          <Flame size={19} className="fill-red-500 text-red-500 z-10 relative"/>
-          <div className="absolute inset-0 bg-red-500 rounded-full opacity-0 group-hover:opacity-75 blur-md transition-opacity duration-300"></div>
-        </div>
-        <span className="text-sm text-gray-400">{post._count.likes}</span>
-      </div>
+      <LikePost postId={post.id} isLiked={post.isLiked} likesCount={post._count.likes} />
 
       <div className="flex items-center gap-2 cursor-pointer group">
         <div className="relative">
