@@ -13,7 +13,7 @@ export const Post = ({post}: {post: any}) => {
                 </Link>
             </div>
           <p>{post.comments[0].content.length > 100 ? `${post.comments[0].content.slice(0, 100)}...` : post.comments[0].content}</p>
-          <div className="absolute -top-5 right-4 w-0.5 z-20 h-[10px] bg-[#181818] transform translate-y-full"></div>
+          <div className="absolute -top-5 right-4 w-0.5 z-10 h-[10px] bg-[#181818] transform translate-y-full"></div>
         </div>
       )}
     <div className="dark:bg-[#181818] shadow-xl w-full hover:dark:bg-[#202020] hover:bg-gray-100 transition-all duration-300 px-5 rounded-3xl border dark:border-zinc-800 border-zinc-200 p-4 flex gap-4">
