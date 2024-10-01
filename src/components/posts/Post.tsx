@@ -7,6 +7,12 @@ import { LikePost } from "./LikePost";
 
 export const Post = async ({post}: {post: any}) => {  
   const session = await getSession()
+  
+  // make the hashtags in the post with different colors, modifie le content
+    const content = post.content.replace(/#\w+/g, (hashtag: string) => {
+        const color = '#3357FF'; // Fixed blue color
+        return `<span style="color: ${color}">${hashtag}</span>`;
+    });
 
   return <div className="flex flex-col gap-4 justify-end w-full items-end relative mb-5">
     {post.comments.length > 0 && (
@@ -38,7 +44,7 @@ export const Post = async ({post}: {post: any}) => {
                 <span className="text-sm dark:text-gray-500 text-gray-500">{formatPostDate(post.createdAt)}</span>
             </div>
 
-            <p className="text-md dark:text-gray-300 text-gray-700">{post.content}</p>
+            <p className="text-md dark:text-gray-300 text-gray-700" dangerouslySetInnerHTML={{ __html: content }} />
             {post.image && <img src={post.image} alt={post.content} className="w-full h-auto rounded-lg" />}
         </div>
     </div>
