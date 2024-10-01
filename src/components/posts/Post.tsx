@@ -11,7 +11,7 @@ export const Post = async ({post}: {post: any}) => {
   // make the hashtags in the post with different colors, modifie le content
     const content = post.content.replace(/#\w+/g, (hashtag: string) => {
         const color = '#0197f6'; // Fixed blue color
-        return `<span style="color: ${color}">${hashtag}</span>`;
+        return `<span style="color: ${color}; cursor: pointer;">${hashtag}</span>`;
     });
 
   return <div className="flex flex-col gap-4 justify-end w-full items-end relative mb-5">
