@@ -31,7 +31,7 @@ export const Post = async ({post}: {post: any}) => {
     <div className="dark:bg-[#181818] shadow-xl w-full hover:dark:bg-[#202020] hover:bg-gray-100 transition-all duration-300 px-5 rounded-3xl border dark:border-zinc-800 border-zinc-200 p-4 flex gap-4">
         <img src={post.author.image} alt={post.author.name} className="w-10 h-10 rounded-full" />
 
-        {session?.user?.id === post.author.id && <Ellipsis />}
+        {session?.user?.id === post.author.id && <Ellipsis postId={post.id} />}
 
         <div className="flex flex-col gap-2 w-full">
             <div className="flex items-center gap-2 justify-between">
