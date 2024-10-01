@@ -1,6 +1,7 @@
 import { formatPostDate } from "../utils/FormatDate";
 import Link from "next/link";
 import { Flame, MessageSquare, Share2, Repeat2} from "lucide-react";
+import ConfettiExplosion from 'react-confetti-explosion';
 
 export const Post = ({post}: {post: any}) => {  
   return <div className="flex flex-col gap-4 justify-end w-full items-end relative mb-5">
