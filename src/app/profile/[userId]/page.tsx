@@ -4,6 +4,7 @@ import { getProfile } from '@/server/Profile.action'
 import { getSession } from '@/components/utils/CacheSession'
 import { EnTete } from '@/components/profilePage/EnTete'
 import { ProfileInformation } from '@/components/profilePage/ProfileInformation'
+import { TabsContent } from '@/components/profilePage/TabsContent'
 
 interface UserIdProfileProps {
     params: {
@@ -21,6 +22,7 @@ const UserIdProfile = async ({params}: UserIdProfileProps) => {
     <div className="flex-1 p-5 max-w-[900px] mx-auto">
         <EnTete userBanner={user?.banner || ""} userAvatar={user?.image || ""} />
         <ProfileInformation user={user} sessionId={session?.user?.id || ""}/>
+        <TabsContent />
     </div>
 
     <SidebarRight />
