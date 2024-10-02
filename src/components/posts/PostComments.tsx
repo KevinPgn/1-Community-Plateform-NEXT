@@ -21,12 +21,24 @@ export const PostComments = ({postId}: {postId: string}) => {
    }
   }
 
-  return <form className='flex items-center gap-2 mt-5' onSubmit={handleSubmit(onSubmit)}>
-      <Textarea {...register("content")} className='w-full h-14 bg-transparent dark:border-zinc-800 border-zinc-200 border' placeholder='Add a comment'/>
-      <Button type="submit" variant='ghost' className='dark:border-zinc-800 border-zinc-200 border hover:dark:bg-zinc-800 hover:bg-zinc-200 transition-all duration-300'>
+  return (
+    <form className='flex items-center gap-2 mt-5' onSubmit={handleSubmit(onSubmit)}>
+      <Textarea 
+        {...register("content", { required: "Comment cannot be empty" })} 
+        className='w-full h-14 bg-transparent dark:border-zinc-800 border-zinc-200 border' 
+        placeholder='Add a comment'
+      />
+      <Button 
+        type="submit" 
+        variant='ghost' 
+        className='dark:border-zinc-800 border-zinc-200 border hover:dark:bg-zinc-800 hover:bg-zinc-200 transition-all duration-300'
+        disabled={!errors.content}
+      >
         <Send size={19} />
       </Button>
-
+      
+      {errors.content && <p className="text-red-500 text-sm mt-1">{errors.content.message as string}</p>}
       <ToastContainer />
     </form>
+  )
 }
