@@ -111,7 +111,6 @@ export const getPosts = cache(async () => {
 })
 
 // Get post by id
-
 export const getPostById = cache(async (postId: string) => {
     const session = await getSession()
     const currentUserId = session?.user?.id
