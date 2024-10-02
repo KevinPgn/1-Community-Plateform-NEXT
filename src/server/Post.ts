@@ -145,7 +145,7 @@ export const getPostById = cache(async (postId: string) => {
                         }
                     }
                 },
-                take: 1,
+                take: 10,
             },
             _count: {
                 select: {

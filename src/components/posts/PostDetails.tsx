@@ -3,13 +3,15 @@ import { LikePost } from "./LikePost"
 import { MessagePost } from "./MessagePost"
 import { RepostPost } from "./RepostPost"
 import { SharePost } from "./SharePost"
+import { getSession } from "../utils/CacheSession"
+import { PostComments } from "./PostComments"
 
-export const PostDetails = ({ post }: { post: any }) => {
+export const PostDetails = async ({ post }: { post: any }) => {
   const postAlreadyLiked = post.isLiked
   const postAlreadyReposted = post.isReposted
   
   return (
-    <div className='w-full'>
+    <div className='w-full overflow-y-auto'>
       <div className="w-full shadow-md dark:bg-[#171717] rounded-lg p-5 mt-5">
         <div className="flex items-center gap-2">
           <img src={post.author.image} alt={post.author.name} className="w-10 h-10 rounded-full" />
@@ -39,6 +41,12 @@ export const PostDetails = ({ post }: { post: any }) => {
           <MessagePost commentsCount={post._count.comments} />
           <SharePost postId={post.id} />
         </div>
+      </div>
+
+      <PostComments />
+
+      <div className="w-full shadow-md dark:bg-[#171717] rounded-lg p-5 mt-5">
+        <p className="text-md font-bold">Comments</p>
       </div>
     </div>
   )

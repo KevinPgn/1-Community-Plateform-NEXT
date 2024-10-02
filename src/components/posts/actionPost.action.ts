@@ -87,3 +87,29 @@ export const repostPost = authenticatedAction
 
         revalidatePath(`/post/${postId}`)
     })
+
+// Create a comment
+export const createComment = authenticatedAction
+    .schema(z.object({
+        postId: z.string(),
+        content: z.string().min(1).max(280),
+    }))
+    .action(async ({parsedInput: {postId, content}, ctx:{userId}}) => {
+        const post = await prisma.post.findUnique({
+            where: {id: postId}
+        })
+
+        if(!post) {
+            throw new Error("Post not found")
+        }
+
+        await prisma.comment.create({
+            data: {
+                postId,
+                content,
+                authorId: userId,
+            }
+        })
+
+        revalidatePath(`/post/${postId}`)
+    })
