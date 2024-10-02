@@ -19,7 +19,7 @@ export const SidebarLeft = async () => {
             <span className="text-sm text-gray-500 text-center">@{session?.user?.name}</span>
         </div>
         
-        <Links />
+        <Links sessionId={session?.user?.id || ""}/>
         <ButtonCreatePost />
     </div>
 
