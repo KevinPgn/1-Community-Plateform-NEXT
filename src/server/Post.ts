@@ -171,7 +171,7 @@ export const getPostById = cache(async (postId: string) => {
 
     return {
         ...post,
-        isLiked: post?.likes?.length ?? 0 > 0,
-        isReposted: post?.reposts?.length ?? 0 > 0,
+        isLiked: Boolean(post?.likes?.length),
+        isReposted: Boolean(post?.reposts?.length),
     }
 })
