@@ -26,11 +26,11 @@ export const RepostPost = ({postId, isReposted, repostsCount}: {postId: string, 
   <div className="relative">
     <Repeat2 size={19} className={cn(
       "z-10 relative",
-      optimisticReposts.isReposted ? "text-green-500" : "text-white"
+      optimisticReposts.isReposted ? "text-green-500" : "dark:text-white text-black"
     )}/>
     <div className={cn(
       "absolute inset-0 rounded-full opacity-0 group-hover:opacity-75 blur-md transition-opacity duration-300",
-      optimisticReposts.isReposted ? "bg-green-500" : "bg-white"
+      optimisticReposts.isReposted ? "bg-green-500" : "dark:bg-white bg-black"  
     )}></div>
   </div>
   <span className="text-sm text-gray-400">{optimisticReposts.repostsCount}</span>
