@@ -5,6 +5,7 @@ import { Ellipsis } from "./Ellipsis"
 import { getSession } from "@/components/utils/CacheSession"
 import { LikePost } from "./LikePost";
 import { RepostPost } from "./RepostPost";
+import { SharePost } from "./SharePost";
 
 export const Post = async ({post}: {post: any}) => {  
   const session = await getSession()
@@ -63,10 +64,7 @@ export const Post = async ({post}: {post: any}) => {
 
       <RepostPost postId={post.id} isReposted={post.isReposted} repostsCount={post._count.reposts} /> 
 
-      <div className="relative group">
-        <Share2 size={19} className="cursor-pointer text-gray-500 group-hover:text-yellow-500 duration-300 z-10 relative"/>
-        <div className="absolute inset-0 bg-yellow-500 rounded-full opacity-0 group-hover:opacity-75 blur-md transition-opacity duration-300"></div>
-      </div>
+      <SharePost postId={post.id} />
     </div>
   </div>
 }
