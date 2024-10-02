@@ -109,3 +109,70 @@ export const getPosts = cache(async () => {
         isReposted: reposts.length > 0,
     }))
 })
+
+// Get post by id
+
+export const getPostById = cache(async (postId: string) => {
+    const session = await getSession()
+    const currentUserId = session?.user?.id
+    
+    const post = await prisma.post.findUnique({
+        where: {
+            id: postId,
+        },
+        select: {
+            id: true,
+            content: true,
+            image: true,
+            views: true,
+            createdAt: true,
+            isPublic: true,
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    image: true,
+                }
+            },
+            comments: {
+                select: {
+                    id: true,
+                    content: true,
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                        }
+                    }
+                },
+                take: 1,
+            },
+            _count: {
+                select: {
+                    comments: true,
+                    likes: true,
+                    reposts: true,
+                }
+            },
+
+            // Si l'utilisateur est connecté, ajouter ses likes et reposts à la publication afin d'avoir l'information
+            ...(currentUserId && {
+                likes: {
+                    where: { authorId: currentUserId },
+                    select: { id: true }   
+                },
+                reposts: {
+                    where: { authorId: currentUserId },
+                    select: { id: true }   
+                },
+            }),
+        },
+    })
+
+    return {
+        ...post,
+        isLiked: post?.likes?.length ?? 0 > 0,
+        isReposted: post?.reposts?.length ?? 0 > 0,
+    }
+})
