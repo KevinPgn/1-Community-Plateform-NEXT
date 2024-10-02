@@ -13,7 +13,7 @@ export const BackRouter = () => {
       <Button variant="outline" className="px-3">
         <ArrowLeft size={20} />
       </Button>
-      <span className="text-sm font-medium">Back</span>
+      <span className="text-sm font-medium">Back to Home Feeds</span>
     </div>
   )
 }
