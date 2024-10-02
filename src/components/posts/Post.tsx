@@ -4,6 +4,7 @@ import { MessageSquare, Share2, Repeat2} from "lucide-react";
 import { Ellipsis } from "./Ellipsis"
 import { getSession } from "@/components/utils/CacheSession"
 import { LikePost } from "./LikePost";
+import { RepostPost } from "./RepostPost";
 
 export const Post = async ({post}: {post: any}) => {  
   const session = await getSession()
@@ -60,13 +61,7 @@ export const Post = async ({post}: {post: any}) => {
         <span className="text-sm text-gray-400">{post._count.comments}</span>
       </div>
 
-      <div className="flex items-center gap-2 cursor-pointer group">
-        <div className="relative">
-          <Repeat2 size={19} className="text-green-500 fill-green-500 z-10 relative"/>
-          <div className="absolute inset-0 bg-green-500 rounded-full opacity-0 group-hover:opacity-75 blur-md transition-opacity duration-300"></div>
-        </div>
-        <span className="text-sm text-gray-400">{post._count.reposts}</span>
-      </div>
+      <RepostPost postId={post.id} isReposted={post.isReposted} repostsCount={post._count.reposts} /> 
 
       <div className="relative group">
         <Share2 size={19} className="cursor-pointer text-gray-500 group-hover:text-yellow-500 duration-300 z-10 relative"/>

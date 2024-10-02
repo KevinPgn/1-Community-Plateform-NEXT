@@ -58,3 +58,32 @@ export const likePost = authenticatedAction
         revalidatePath(`/post/${postId}`)
     })
 
+export const repostPost = authenticatedAction
+    .schema(z.object({
+        postId: z.string(),
+    }))
+    .action(async ({parsedInput: {postId}, ctx:{userId}}) => {
+        const post = await prisma.post.findUnique({
+            where: {id: postId}
+        })
+
+        if(!post) {
+            throw new Error("Post not found")
+        }
+
+        const userRepostedPost = await prisma.repost.findUnique({
+            where: {authorId_postId: {postId, authorId: userId}}
+        })
+
+        if(userRepostedPost) {
+            await prisma.repost.delete({
+                where: {id: userRepostedPost.id}
+            })
+        } else {
+            await prisma.repost.create({
+                data: {postId, authorId: userId}
+            })
+        }
+
+        revalidatePath(`/post/${postId}`)
+    })
