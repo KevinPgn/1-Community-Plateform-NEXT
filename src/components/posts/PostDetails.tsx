@@ -43,7 +43,7 @@ export const PostDetails = async ({ post }: { post: any }) => {
         </div>
       </div>
 
-      <PostComments />
+      <PostComments postId={post.id} />
 
       <div className="w-full shadow-md dark:bg-[#171717] rounded-lg p-5 mt-5">
         <p className="text-md font-bold">Comments</p>
