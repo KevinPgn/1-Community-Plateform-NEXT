@@ -41,8 +41,8 @@ export const likePost = authenticatedAction
             throw new Error("Post not found")
         }
 
-        const userLikedPost = await prisma.like.findFirst({
-            where: {postId, authorId: userId}
+        const userLikedPost = await prisma.like.findUnique({
+            where: {authorId_postId: {postId, authorId: userId}}
         })
 
         if(userLikedPost) {
