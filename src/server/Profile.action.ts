@@ -2,7 +2,6 @@
 import prisma from "@/lib/prisma"
 import {z} from "zod"
 import { authenticatedAction } from "@/lib/safe-actions"
-import { extractHashtags } from "@/components/utils/extractHashtags"
 import { cache } from "react"
 
 export const getProfile = cache(async (userId: string) => {
