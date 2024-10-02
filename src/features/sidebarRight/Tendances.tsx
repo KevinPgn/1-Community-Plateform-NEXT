@@ -1,7 +1,7 @@
 import { getTrendingsTags } from "./sidebarRight.action";
 import { Suspense } from "react";
 import Link from "next/link";
-
+import React from 'react'
 async function TrendingTags() {
   const trendingTags = await getTrendingsTags();
 

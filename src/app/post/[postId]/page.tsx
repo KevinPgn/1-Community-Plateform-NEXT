@@ -16,14 +16,8 @@ const PostIdPage = async ({ params }: PostIdPageProps) => {
   return (
     <div className="flex flex-1 justify-center">
       <div className="flex-1 p-5 max-w-[800px] mx-auto">
-          <div className="flex items-center justify-between">
-            <BackRouter />
-        </div>
-
-        <div className="flex flex-col gap-4 mt-10">
-            <PostDetails post={post} />
-        </div>
-
+        <BackRouter />
+        <PostDetails post={post} />
       </div>
 
       <SidebarRight />
