@@ -1,6 +1,5 @@
 import { formatPostDate } from "../utils/FormatDate";
 import Link from "next/link";
-import { MessageSquare, Share2, Repeat2} from "lucide-react";
 import { Ellipsis } from "./Ellipsis"
 import { getSession } from "@/components/utils/CacheSession"
 import { LikePost } from "./LikePost";
@@ -47,7 +46,9 @@ export const Post = async ({post}: {post: any}) => {
                 <span className="text-sm dark:text-gray-500 text-gray-500">{formatPostDate(post.createdAt)}</span>
             </div>
 
-            <p className="text-md dark:text-gray-300 text-gray-700" dangerouslySetInnerHTML={{ __html: content }} />
+            <Link href={`/post/${post.id}`}>
+              <p className="text-md dark:text-gray-300 text-gray-700" dangerouslySetInnerHTML={{ __html: content }} />
+            </Link>
             {post.image && <img src={post.image} alt={post.content} className="w-full h-auto rounded-lg" />}
         </div>
     </div>
