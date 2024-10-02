@@ -8,7 +8,7 @@ import { Menu } from "lucide-react"
 export const SidebarLeft = async () => {
   const session = await getSession()
 
-  return <aside className="w-[280px] flex flex-col justify-between pb-10 max-xl:hidden rounded-tr-lg rounded-br-lg bg-white dark:bg-[#121212]">
+  return <aside className="w-[280px] h-screen flex flex-col justify-between pb-10 max-xl:hidden rounded-tr-lg rounded-br-lg bg-white dark:bg-[#121212]">
     <div className="flex flex-col">
         <div className="relative">
         <img src={session?.user?.image || ""} loading="lazy" alt={session?.user?.name || ""} width={80} height={80} className="rounded-full mx-auto mt-7 max-md:w-[50px] max-md:h-[50px]" />

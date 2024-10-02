@@ -15,7 +15,7 @@ export const ButtonCreatePost = () => {
     </Button> 
 
   {isOpen ? (
-    <div onClick={() => setIsOpen(!isOpen)} className="absolute top-0 left-0 w-full h-full bg-black/50 z-20">
+    <div onClick={() => setIsOpen(!isOpen)} className="fixed top-0 left-0 w-full h-full bg-black/50 z-20">
       <div onClick={(e) => e.stopPropagation()} className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 dark:bg-gray-900 bg-gray-50 shadow-lg p-5 rounded-md w-[550px] min-h-[400px]">
         <FormCreatePost isOpen={isOpen} setIsOpen={setIsOpen}/>
       </div>

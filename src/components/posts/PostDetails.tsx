@@ -11,7 +11,7 @@ export const PostDetails = async ({ post }: { post: any }) => {
   const postAlreadyReposted = post.isReposted
   
   return (
-    <div className='w-full overflow-y-auto'>
+    <div className='w-full'>
       <div className="w-full shadow-md dark:bg-[#171717] rounded-lg p-5 mt-5">
         <div className="flex items-center gap-2">
           <img src={post.author.image} alt={post.author.name} className="w-10 h-10 rounded-full" />
@@ -47,6 +47,15 @@ export const PostDetails = async ({ post }: { post: any }) => {
 
       <div className="w-full shadow-md dark:bg-[#171717] rounded-lg p-5 mt-5">
         <p className="text-md font-bold">Comments</p>
+        {post.comments.map((comment: any) => (
+          <div key={comment.id} className="w-full shadow-md dark:bg-[#171717] rounded-lg p-5 mt-5">
+            <div className="flex items-center gap-2 mb-3">
+              <img src={comment.author.image} alt={comment.author.name} className="w-8 h-8 rounded-full" />
+              <p className="text-md font-bold">{comment.author.name}</p>
+            </div>
+            <p className="text-md">{comment.content}</p>
+          </div>
+        ))}
       </div>
     </div>
   )
