@@ -2,6 +2,7 @@ import { SidebarRight } from '@/features/sidebarRight/SidebarRight'
 import React from 'react'
 import { getProfile } from '@/server/Profile.action'
 import { getSession } from '@/components/utils/CacheSession'
+import { EnTete } from '@/components/profilePage/EnTete'
 
 interface UserIdProfileProps {
     params: {
@@ -16,8 +17,8 @@ const UserIdProfile = async ({params}: UserIdProfileProps) => {
   return (
     <div className="flex flex-1 justify-center">
     
-    <div className="flex-1 p-5 max-w-[800px] mx-auto">
-        
+    <div className="flex-1 p-5 max-w-[900px] mx-auto">
+        <EnTete userBanner={user?.banner || ""} userAvatar={user?.image || ""} />
     </div>
 
     <SidebarRight />
