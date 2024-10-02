@@ -42,7 +42,7 @@ export const createPost = authenticatedAction
         return post
     })
 
-export const getPosts = unstable_cache(async () => {
+export const getPosts = cache(async () => {
     const session = await getSession()
     const currentUserId = session?.user?.id
     
@@ -112,7 +112,7 @@ export const getPosts = unstable_cache(async () => {
 })
 
 // Get post by id
-export const getPostById = unstable_cache(async (postId: string) => {
+export const getPostById = cache(async (postId: string) => {
     const session = await getSession()
     const currentUserId = session?.user?.id
     
