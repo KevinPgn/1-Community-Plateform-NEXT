@@ -6,6 +6,7 @@ import { getSession } from "@/components/utils/CacheSession"
 import { LikePost } from "./LikePost";
 import { RepostPost } from "./RepostPost";
 import { SharePost } from "./SharePost";
+import { MessagePost } from "./MessagePost";
 
 export const Post = async ({post}: {post: any}) => {  
   const session = await getSession()
@@ -53,17 +54,8 @@ export const Post = async ({post}: {post: any}) => {
 
     <div className="w-[220px] p-3 dark:bg-[#181818] shadow-md dark:border-zinc-800 border-zinc-200 border rounded-full flex items-center justify-between">
       <LikePost postId={post.id} isLiked={post.isLiked} likesCount={post._count.likes} />
-
-      <div className="flex items-center gap-2 cursor-pointer group">
-        <div className="relative">
-          <MessageSquare size={19} className="text-blue-500 fill-blue-500 z-10 relative"/>
-          <div className="absolute inset-0 bg-blue-500 rounded-full opacity-0 group-hover:opacity-75 blur-md transition-opacity duration-300"></div>
-        </div>
-        <span className="text-sm text-gray-400">{post._count.comments}</span>
-      </div>
-
+      <MessagePost commentsCount={post._count.comments} />
       <RepostPost postId={post.id} isReposted={post.isReposted} repostsCount={post._count.reposts} /> 
-
       <SharePost postId={post.id} />
     </div>
   </div>
