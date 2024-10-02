@@ -6,6 +6,7 @@ import { extractHashtags } from "@/components/utils/extractHashtags"
 import { revalidatePath } from "next/cache"
 import {cache} from "react"
 import { getSession } from "@/components/utils/CacheSession"
+import { unstable_cache } from "next/cache"
 
 const cachedExtractHashtags = cache(extractHashtags)
 
@@ -41,7 +42,7 @@ export const createPost = authenticatedAction
         return post
     })
 
-export const getPosts = cache(async () => {
+export const getPosts = unstable_cache(async () => {
     const session = await getSession()
     const currentUserId = session?.user?.id
     
@@ -111,7 +112,7 @@ export const getPosts = cache(async () => {
 })
 
 // Get post by id
-export const getPostById = cache(async (postId: string) => {
+export const getPostById = unstable_cache(async (postId: string) => {
     const session = await getSession()
     const currentUserId = session?.user?.id
     
