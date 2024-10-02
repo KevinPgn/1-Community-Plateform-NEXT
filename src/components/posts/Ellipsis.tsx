@@ -27,7 +27,7 @@ export const Ellipsis = ({postId}: {postId: string}) => {
         <EllipsisIcon size={20} className="text-gray-500 group-hover:text-gray-700 transition-all duration-75"/>
       </div>
     </PopoverTrigger>
-    <PopoverContent className="w-48 flex flex-col gap-2">
+    <PopoverContent className="w-48 flex flex-col gap-2 dark:bg-[#181818] shadow-md dark:border-zinc-800 border-zinc-200 border rounded-lg">
       <div className="flex items-center gap-2 hover:bg-blue-500/20 p-2 rounded-md duration-75 cursor-pointer">
         <Edit className="mr-2 h-4 w-4" />
         <p>Edit</p>
