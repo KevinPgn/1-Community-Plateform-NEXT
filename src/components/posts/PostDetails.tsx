@@ -32,8 +32,8 @@ export const PostDetails = ({ post }: { post: any }) => {
           <p className="text-md dark:text-gray-500 text-gray-500">{post._count.likes} likes</p>
         </div>
 
-        <div className="w-full h-[1px] dark:bg-zinc-700 bg-zinc-200 mt-5 mb-3"></div>
-        <div className="flex items-center justify-between gap-2">
+        <div className="w-full h-[1px] dark:bg-zinc-700 bg-zinc-200 mt-5 mb-4"></div>
+        <div className="flex items-center justify-between px-5 gap-2">
           <LikePost postId={post.id} isLiked={postAlreadyLiked} likesCount={post._count.likes} />
           <RepostPost postId={post.id} isReposted={postAlreadyReposted} repostsCount={post._count.reposts} />
           <MessagePost commentsCount={post._count.comments} />
