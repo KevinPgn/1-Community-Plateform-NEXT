@@ -20,6 +20,13 @@ export const getProfile = cache(async (userId: string) => {
             isVerified: true,
             website: true,
             location: true,
+            _count: {
+                select: {
+                    followers: true,
+                    following: true,
+                    posts: true
+                }
+            }
         }
     })
 
