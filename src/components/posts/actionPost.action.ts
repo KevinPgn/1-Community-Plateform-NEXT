@@ -26,3 +26,35 @@ export const deletePost = authenticatedAction
 
         revalidatePath("/")
 })
+
+// Like the post
+export const likePost = authenticatedAction
+    .schema(z.object({
+        postId: z.string(),
+    }))
+    .action(async ({parsedInput: {postId}, ctx:{userId}}) => {
+        const post = await prisma.post.findUnique({
+            where: {id: postId}
+        })
+
+        if(!post) {
+            throw new Error("Post not found")
+        }
+
+        const userLikedPost = await prisma.like.findFirst({
+            where: {postId, authorId: userId}
+        })
+
+        if(userLikedPost) {
+            await prisma.like.delete({
+                where: {id: userLikedPost.id}
+            })
+        } else {
+            await prisma.like.create({
+                data: {postId, authorId: userId}  
+            })
+        }
+
+        revalidatePath(`/post/${postId}`)
+    })
+
