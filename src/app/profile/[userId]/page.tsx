@@ -1,3 +1,4 @@
+import { SidebarRight } from '@/features/sidebarRight/SidebarRight'
 import React from 'react'
 
 interface UserIdProfileProps {
@@ -8,7 +9,13 @@ interface UserIdProfileProps {
 
 const UserIdProfile = ({params}: UserIdProfileProps) => {
   return (
-    <div>UserIdProfile</div>
+    <div className="flex flex-1 justify-center">
+    <div className="flex-1 p-5 max-w-[800px] mx-auto">
+        
+    </div>
+
+    <SidebarRight />
+  </div>
   )
 }
 
