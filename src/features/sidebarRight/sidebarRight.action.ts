@@ -32,7 +32,7 @@ export const getRandomUsersNotFollowed = authenticatedAction
         const users = await prisma.user.findMany({
             where: {
                 NOT: {
-                    following: {
+                    followers: {
                         some: {
                             followingId: userId
                         }
