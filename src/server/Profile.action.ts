@@ -54,7 +54,10 @@ export const getUserPosts = cache(async (userId: string) => {
     
     const post = await prisma.post.findMany({
         where: {
-            authorId: userId,
+            OR: [
+                { authorId: userId },
+                { reposts: { some: { authorId: userId } } }
+            ]
         },
         take: 10,
         orderBy: { createdAt: 'desc' },
