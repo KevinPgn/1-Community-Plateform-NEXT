@@ -45,7 +45,7 @@ export const Links = ({sessionId}: LinksProps) => {
       </div> 
     </Link>
 
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/media" && "bg-white text-black font-semibold")}>
+    <Link href={`/profile/${sessionId}`} className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/profile/medias" && "bg-white text-black font-semibold")}>
       <ImageIcon size={21} />
       <span>Media</span>
     </Link>
