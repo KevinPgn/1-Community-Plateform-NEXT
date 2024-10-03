@@ -3,6 +3,7 @@ import prisma from "@/lib/prisma"
 import {z} from "zod"
 import { authenticatedAction } from "@/lib/safe-actions"
 import { cache } from "react"
+import { getSession } from "@/components/utils/CacheSession"
 
 export const getProfile = cache(async (userId: string) => {
     const user = await prisma.user.findUnique({
@@ -33,6 +34,75 @@ export const getProfile = cache(async (userId: string) => {
     return user
 })
 
+export const getUserPosts = cache(async (userId: string) => {
+    const session = await getSession()
+    const currentUserId = session?.user?.id
+    
+    const post = await prisma.post.findMany({
+        where: {
+            authorId: userId,
+        },
+        take: 10,
+        orderBy: { createdAt: 'desc' },
+        select: {
+            id: true,
+            content: true,
+            image: true,
+            views: true,
+            createdAt: true,
+            isPublic: true,
+            author: {
+                select: {
+                    id: true,
+                    name: true,
+                    image: true,
+                }
+            },
+            comments: {
+                select: {
+                    id: true,
+                    content: true,
+                    author: {
+                        select: {
+                            id: true,
+                            name: true,
+                            image: true,
+                        }
+                    }
+                },
+                take: 1,
+            },
+            _count: {
+                select: {
+                    comments: true,
+                    likes: true,
+                    reposts: true,
+                }
+            },
+
+            // Si l'utilisateur est connecté, ajouter ses likes et reposts à la publication afin d'avoir l'information
+            ...(currentUserId && {
+                likes: {
+                    where: { authorId: currentUserId },
+                    select: { id: true }   
+                },
+                reposts: {
+                    where: { authorId: currentUserId },
+                    select: { id: true }   
+                },
+            }),
+        },
+    })
+
+    const transformedPosts = post.map(post => ({
+        ...post,
+        isLiked: Boolean(post.likes?.length),
+        isReposted: Boolean(post.reposts?.length),
+    }));
+
+    return transformedPosts
+})
+
 export const getUserMediaPosts = cache(async (userId: string) => {
     return await prisma.post.findMany({
       where: {
@@ -43,6 +113,7 @@ export const getUserMediaPosts = cache(async (userId: string) => {
       select: {
         id: true,
         image: true,
-      }
+      },
+      take: 10,
     })
   })
