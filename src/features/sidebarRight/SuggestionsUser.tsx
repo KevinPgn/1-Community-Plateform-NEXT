@@ -1,15 +1,14 @@
 import React from "react"
-import { Button } from "@/components/ui/button"
-import { getRandomUsers } from "./sidebarRight.action"
+import { getRandomUsersNotFollowed } from "./sidebarRight.action"
 import { FollowBtn } from "@/components/utils/FollowBtn"
 
 export const SuggestionsUser = async ({ userId }: { userId: string }) => {
-  const suggestedUsers = await getRandomUsers(userId)
+  const suggestedUsers = await getRandomUsersNotFollowed({userId})
 
   return (
     <div className="rounded-xl p-4 mb-4">
       <h2 className="text-xl font-bold mb-4">Qui suivre</h2>
-      {suggestedUsers.map((user) => (
+      {suggestedUsers?.data?.map((user: any) => (
         <div key={user.id} className="flex items-center justify-between mb-4">
           <div className="flex items-center">
             <div className="w-10 h-10 rounded-full mr-3 flex items-center justify-center text-white font-bold">

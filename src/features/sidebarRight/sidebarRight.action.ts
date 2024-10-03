@@ -2,7 +2,6 @@
 import prisma from "@/lib/prisma"
 import {z} from "zod"
 import { authenticatedAction } from "@/lib/safe-actions"
-import { extractHashtags } from "@/components/utils/extractHashtags"
 
 // Get the 5 mosts useds tags
 export const getTrendingsTags = async () => {
@@ -26,24 +25,34 @@ export const getTrendingsTags = async () => {
     return hashtags
 }
 
-// Récupère moi 3 utilisateurs aléatoires, qui ne sont pas dans la liste des utilisateurs suivis par l'utilisateur connecté
-export const getRandomUsers = async (userId: string) => {
-    const users = await prisma.user.findMany({
-        where: {
-            id: {
-                not: userId
-            },
-            NOT: {
-                followers: {
-                    some: {
-                        followerId: userId
+// Récupère moi 3 utilisateurs aléatoires, que lutilisateur connecté ne suit pas
+export const getRandomUsersNotFollowed = authenticatedAction
+    .schema(z.object({}))
+    .action(async ({ctx: {userId}}) => {
+        const users = await prisma.user.findMany({
+            where: {
+                NOT: {
+                    following: {
+                        some: {
+                            followingId: userId
+                        }
                     }
+                },
+                id: {
+                    not: userId
                 }
+            },
+            select: {
+                id: true,
+                name: true,
+                image: true,
+                pseudo: true
+            },
+            take: 3,
+            orderBy: {
+                createdAt: 'desc'
             }
-        },
-        take: 3
+        })
+
+        return users
     })
-
-    return users
-}
-

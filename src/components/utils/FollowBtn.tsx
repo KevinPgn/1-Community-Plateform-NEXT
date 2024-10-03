@@ -9,5 +9,5 @@ export const FollowBtn = ({ userId, isFollowing }: { userId: string, isFollowing
         console.log(test)
     }}
     variant="outline"
-  >Suivre</Button>
+  >Follow</Button>
 }
