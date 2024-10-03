@@ -176,3 +176,19 @@ export const getPostById = cache(async (postId: string) => {
         isReposted: Boolean(post?.reposts?.length),
     }
 })
+
+// Lutilisateur connecté peut suivre un autre utilisateur
+export const followUser = authenticatedAction
+    .schema(z.object({
+        userToFollowId: z.string(),
+    }))
+    .action(async ({parsedInput: {userToFollowId}, ctx:{userId}}) => {
+        await prisma.follow.create({
+            data: {
+                followerId: userToFollowId,
+                followingId: userId,
+            }
+        })
+
+        revalidatePath(`/profile/${userToFollowId}`)
+    })

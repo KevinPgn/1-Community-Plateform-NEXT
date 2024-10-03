@@ -1,6 +1,7 @@
 import React from "react"
 import { Button } from "@/components/ui/button"
 import { getRandomUsers } from "./sidebarRight.action"
+import { FollowBtn } from "@/components/utils/FollowBtn"
 
 export const SuggestionsUser = async ({ userId }: { userId: string }) => {
   const suggestedUsers = await getRandomUsers(userId)
@@ -19,7 +20,7 @@ export const SuggestionsUser = async ({ userId }: { userId: string }) => {
               <p className="text-gray-400 text-sm">@{user.pseudo ? user.pseudo : user.name}</p>
             </div>
           </div>
-          <Button variant="outline">Suivre</Button>
+          <FollowBtn userId={user.id} isFollowing={false} />
         </div>
       ))}
 
