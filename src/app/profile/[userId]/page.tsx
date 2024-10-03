@@ -22,7 +22,7 @@ const UserIdProfile = async ({params}: UserIdProfileProps) => {
     <div className="flex-1 p-5 max-w-[900px] mx-auto">
         <EnTete userBanner={user?.banner || ""} userAvatar={user?.image || ""} />
         <ProfileInformation user={user} sessionId={session?.user?.id || ""}/>
-        <TabsContent />
+        <TabsContent userId={userId} />
     </div>
 
     <SidebarRight />

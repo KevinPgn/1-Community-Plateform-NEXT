@@ -1,7 +1,8 @@
 import React from "react"
 import { Tabs, TabsContent as Content, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { MediasUser } from "./MediasUser"
 
-export const TabsContent = () => {
+export const TabsContent = ({userId}: {userId: string}) => {
 //   tabs : Posts de l'utilisateur, Like de l'utilisateur, Medias de l'utilisateur
   return (
     <Tabs defaultValue="posts" className="w-full mt-10">
@@ -17,7 +18,7 @@ export const TabsContent = () => {
         {/* Content for Likes tab */}
       </Content>
       <Content value="medias">
-        {/* Content for Medias tab */}
+        <MediasUser userId={userId} />
       </Content>
     </Tabs>
   )

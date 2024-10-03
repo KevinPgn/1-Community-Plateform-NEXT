@@ -32,3 +32,17 @@ export const getProfile = cache(async (userId: string) => {
 
     return user
 })
+
+export const getUserMediaPosts = cache(async (userId: string) => {
+    return await prisma.post.findMany({
+      where: {
+        authorId: userId,
+        image: {not: ""}
+      },
+      orderBy: { createdAt: 'desc' },
+      select: {
+        id: true,
+        image: true,
+      }
+    })
+  })

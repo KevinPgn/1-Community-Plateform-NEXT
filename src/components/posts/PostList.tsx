@@ -1,3 +1,4 @@
+import React from "react"
 import { getPosts } from "@/server/Post";
 import { Post } from "./Post";
 
