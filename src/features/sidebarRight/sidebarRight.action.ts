@@ -25,3 +25,25 @@ export const getTrendingsTags = async () => {
 
     return hashtags
 }
+
+// Récupère moi 3 utilisateurs aléatoires, qui ne sont pas dans la liste des utilisateurs suivis par l'utilisateur connecté
+export const getRandomUsers = async (userId: string) => {
+    const users = await prisma.user.findMany({
+        where: {
+            id: {
+                not: userId
+            },
+            NOT: {
+                followers: {
+                    some: {
+                        followerId: userId
+                    }
+                }
+            }
+        },
+        take: 3
+    })
+
+    return users
+}
+
