@@ -20,8 +20,8 @@ const UserIdProfile = async ({params}: UserIdProfileProps) => {
     <div className="flex flex-1 justify-center">
     
     <div className="flex-1 p-5 max-w-[900px] mx-auto">
-        <EnTete userBanner={user?.banner || ""} userAvatar={user?.image || ""} />
-        <ProfileInformation user={user} sessionId={session?.user?.id || ""}/>
+        <EnTete userBanner={user?.user?.banner || ""} userAvatar={user?.user?.image || ""} />
+        <ProfileInformation user={user?.user} sessionId={session?.user?.id || ""}/>
         <TabsContent userId={userId} />
     </div>
 

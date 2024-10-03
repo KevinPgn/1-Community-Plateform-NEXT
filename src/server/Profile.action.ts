@@ -6,6 +6,9 @@ import { cache } from "react"
 import { getSession } from "@/components/utils/CacheSession"
 
 export const getProfile = cache(async (userId: string) => {
+    const session = await getSession()
+    const currentUserId = session?.user?.id
+
     const user = await prisma.user.findUnique({
         where: {
             id: userId
@@ -27,11 +30,24 @@ export const getProfile = cache(async (userId: string) => {
                     following: true,
                     posts: true
                 }
-            }
-        }
+            },
+            ...(currentUserId && {
+                followers: {
+                    where: {
+                        followingId: currentUserId
+                    },
+                    select: {
+                        id: true
+                    }
+                }
+            })
+        },
     })
 
-    return user
+    return {
+        user: user,
+        isFollowing: user?.followers?.length ? true : false
+    }
 })
 
 export const getUserPosts = cache(async (userId: string) => {

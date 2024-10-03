@@ -183,12 +183,28 @@ export const followUser = authenticatedAction
         userToFollowId: z.string(),
     }))
     .action(async ({parsedInput: {userToFollowId}, ctx:{userId}}) => {
-        await prisma.follow.create({
-            data: {
+        const isFollowed = await prisma.follow.findFirst({
+            where: {
                 followerId: userToFollowId,
                 followingId: userId,
             }
         })
+        
+        if (isFollowed) {
+            await prisma.follow.delete({
+                where: {
+                    id: isFollowed.id
+                }
+            })
+        } else {
+            await prisma.follow.create({
+                data: {
+                    followerId: userToFollowId,
+                    followingId: userId,
+                }
+            })
+        }
+        
 
         revalidatePath(`/profile/${userToFollowId}`)
     })
