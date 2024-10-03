@@ -1,12 +1,13 @@
 import React from "react"
 import { Tabs, TabsContent as Content, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { MediasUser } from "./MediasUser"
-import { getUserPosts } from "@/server/Profile.action"  
+import { getUserPosts, getUserLikedPosts } from "@/server/Profile.action"  
 import { Post } from "../posts/Post"
 
 export const TabsContent = async ({userId}: {userId: string}) => {
 //   tabs : Posts de l'utilisateur, Like de l'utilisateur, Medias de l'utilisateur
-  const posts = await getUserPosts(userId)
+  const [posts, likedPosts] = await Promise.all([getUserPosts(userId), getUserLikedPosts(userId)])
+
 
   return (
     <Tabs defaultValue="posts" className="w-full mt-10">
@@ -21,7 +22,9 @@ export const TabsContent = async ({userId}: {userId: string}) => {
         ))}
       </Content>
       <Content value="likes">
-        {/* Content for Likes tab */}
+        {likedPosts.map((post) => (
+          <Post key={post.id} post={post} />
+        ))}
       </Content>
       <Content value="medias">
         <MediasUser userId={userId} />
