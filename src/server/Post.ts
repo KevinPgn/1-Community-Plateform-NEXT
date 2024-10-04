@@ -45,6 +45,7 @@ export const createPost = authenticatedAction
 export const getPosts = cache(async (
   options: {
     take?: number;
+    skip?: number;
     where?: any;
     orderBy?: any;
   } = {}
@@ -52,68 +53,80 @@ export const getPosts = cache(async (
   const session = await getSession()
   const currentUserId = session?.user?.id
   
-  const posts = await prisma.post.findMany({
-    where: {
-      isPublic: true,
-      ...options.where
-    },
-    select: {
-      id: true,
-      content: true,
-      image: true,
-      views: true,
-      createdAt: true,
-      isPublic: true,
-      author: {
-        select: {
-          id: true,
-          name: true,
-          image: true,
-        }
+  const [posts, totalCount] = await prisma.$transaction([
+    prisma.post.findMany({
+      where: {
+        isPublic: true,
+        ...options.where
       },
-      comments: {
-        select: {
-          id: true,
-          content: true,
-          author: {
-            select: {
-              id: true,
-              name: true,
-              image: true,
-            }
+      select: {
+        id: true,
+        content: true,
+        image: true,
+        views: true,
+        createdAt: true,
+        isPublic: true,
+        author: {
+          select: {
+            id: true,
+            name: true,
+            image: true,
           }
         },
-        take: 1,
-      },
-      _count: {
-        select: {
-          comments: true,
-          likes: true,
-          reposts: true,
-        }
-      },
-
-      // Si l'utilisateur est connecté, ajouter ses likes et reposts à la publication afin d'avoir l'information
-      ...(currentUserId && {
-        likes: {
-          where: { authorId: currentUserId },
-          select: { id: true }   
+        comments: {
+          select: {
+            id: true,
+            content: true,
+            author: {
+              select: {
+                id: true,
+                name: true,
+                image: true,
+              }
+            }
+          },
+          take: 1,
         },
-        reposts: {
-          where: { authorId: currentUserId },
-          select: { id: true }   
+        _count: {
+          select: {
+            comments: true,
+            likes: true,
+            reposts: true,
+          }
         },
-      }),
-    },
-    take: options.take || 10,
-    orderBy: options.orderBy || { createdAt: "desc" },
-  })
 
-  return posts.map(({likes, reposts, ...post}) => ({
-    ...post,
-    isLiked: likes?.length > 0,
-    isReposted: reposts?.length > 0,
-  }))
+        // Si l'utilisateur est connecté, ajouter ses likes et reposts à la publication afin d'avoir l'information
+        ...(currentUserId && {
+          likes: {
+            where: { authorId: currentUserId },
+            select: { id: true }   
+          },
+          reposts: {
+            where: { authorId: currentUserId },
+            select: { id: true }   
+          },
+        }),
+      },
+      take: options.take || 10,
+      skip: options.skip || 0,
+      orderBy: options.orderBy || { createdAt: "desc" },
+    }),
+    prisma.post.count({
+      where: {
+        isPublic: true,
+        ...options.where
+      }
+    })
+  ])
+
+  return {
+    posts: posts.map(({likes, reposts, ...post}) => ({
+      ...post,
+      isLiked: likes?.length > 0,
+      isReposted: reposts?.length > 0,
+    })),
+    totalCount
+  }
 })
 
 // Get post by id
