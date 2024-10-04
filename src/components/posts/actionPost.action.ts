@@ -100,9 +100,22 @@ export const repostPost = authenticatedAction
                 where: {id: userRepostedPost.id}
             })
         } else {
-            await prisma.repost.create({
-                data: {postId, authorId: userId}
-            })
+            await prisma.$transaction([
+                prisma.repost.create({
+                  data: {
+                    authorId: userId,
+                    postId: postId,
+                  },
+                }),
+                prisma.notification.create({
+                    data: {
+                        userId: post.authorId,
+                        type: "REPOST",
+                        content: `${userId} reposted your post`,
+                        relatedId: postId,
+                    }
+                })
+            ])
         }
 
         revalidatePath(`/post/${postId}`)
@@ -123,13 +136,23 @@ export const createComment = authenticatedAction
             throw new Error("Post not found")
         }
 
-        await prisma.comment.create({
-            data: {
-                postId,
-                content,
-                authorId: userId,
-            }
-        })
+        await prisma.$transaction([
+            prisma.comment.create({
+                data: {
+                    postId,
+                    content,
+                    authorId: userId,
+                }
+            }),
+            prisma.notification.create({
+                data: {
+                    userId: post.authorId,
+                    type: "COMMENT",
+                    content: `${userId} commented on your post`,
+                    relatedId: postId,
+                }
+            })
+        ])
 
         revalidatePath(`/post/${postId}`)
     })
