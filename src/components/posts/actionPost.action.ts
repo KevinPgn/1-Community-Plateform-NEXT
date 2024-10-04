@@ -66,7 +66,7 @@ export const likePost = authenticatedAction
                 }),
                 prisma.notification.create({
                   data: {
-                    userId: post.authorId,
+                    userId: userId,
                     type: "LIKE",
                     content: `${userId} liked your post`,
                     relatedId: postId,
@@ -146,7 +146,7 @@ export const createComment = authenticatedAction
             }),
             prisma.notification.create({
                 data: {
-                    userId: post.authorId,
+                    userId: userId,
                     type: "COMMENT",
                     content: `${userId} commented on your post`,
                     relatedId: postId,
