@@ -34,7 +34,7 @@ export const Links = ({sessionId, notificationsBubble}: LinksProps) => {
       <span>Profile</span>
     </Link>
 
-    <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/notifications" && "bg-white text-black font-semibold")}>
+    <Link href="/notifications" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", pathname === "/notifications" && "bg-white text-black font-semibold")}>
     <div className="flex items-center justify-between w-full">
         <div className="flex items-center gap-3">
           <Bell size={21} />
