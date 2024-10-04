@@ -45,19 +45,39 @@ export const likePost = authenticatedAction
             where: {authorId_postId: {postId, authorId: userId}}
         })
 
-        if(userLikedPost) {
+        if (userLikedPost) {
             await prisma.like.delete({
-                where: {id: userLikedPost.id}
+              where: { id: userLikedPost.id },
             })
-        } else {
-            await prisma.like.create({
-                data: {postId, authorId: userId}  
+          } else {
+            const post = await prisma.post.findUnique({
+              where: { id: postId },
+              select: { authorId: true },
             })
-        }
-
+      
+            if (!post) throw new Error("Post not found")
+      
+            await prisma.$transaction([
+                prisma.like.create({
+                  data: {
+                    authorId: userId,
+                    postId: postId,
+                  },
+                }),
+                prisma.notification.create({
+                  data: {
+                    userId: post.authorId,
+                    type: "LIKE",
+                    content: `${userId} liked your post`,
+                    relatedId: postId,
+                  },
+                }),
+              ])
+            }
         revalidatePath(`/post/${postId}`)
     })
 
+// Repost the post
 export const repostPost = authenticatedAction
     .schema(z.object({
         postId: z.string(),
