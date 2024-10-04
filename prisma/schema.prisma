@@ -30,6 +30,7 @@ model User {
   likes Like[]
   reposts Repost[]
   badges Badge[]
+  notifications Notification[]
 
   followers Follow[] @relation("Followers")
   following Follow[] @relation("Following")
@@ -174,4 +175,17 @@ model Badge {
 
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+// Notification system
+model Notification {
+  id String @id @default(cuid())
+  userId String
+  user User @relation(fields: [userId], references: [id])
+
+  type String
+  content String
+  isRead Boolean @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
