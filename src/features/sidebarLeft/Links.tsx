@@ -6,9 +6,10 @@ import {cn} from "@/lib/utils"
 
 interface LinksProps {
   sessionId: string
+  notificationsBubble: any
 }
 
-export const Links = ({sessionId}: LinksProps) => {
+export const Links = ({sessionId, notificationsBubble}: LinksProps) => {
   const pathname = usePathname()
   return <div className="flex flex-col gap-4 p-4 mt-5">
     <Link href="/" className={cn("flex items-center gap-3 p-3 px-5 rounded-xl hover:dark:bg-white hover:bg-black hover:dark:text-black hover:text-white hover:font-semibold duration-75", (pathname === "/" || pathname.startsWith("/post")) && "dark:bg-white dark:text-black bg-black text-white font-semibold")}>
@@ -40,7 +41,7 @@ export const Links = ({sessionId}: LinksProps) => {
           <span>Notifications</span>
         </div>
         <div className="w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-          <span className="text-white text-xs">10</span>
+          <span className="text-white text-xs">{notificationsBubble}</span>
         </div>
       </div> 
     </Link>

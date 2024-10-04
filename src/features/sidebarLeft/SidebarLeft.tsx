@@ -2,12 +2,13 @@ import { getSession } from "@/components/utils/CacheSession"
 import { Links } from "./Links"
 import { ButtonCreatePost } from "./ButtonCreatePost"
 import { ProfileInformations } from "./ProfileInformations"
-import { Menu } from "lucide-react"
 // todo: add the sidebar for mobile support
+import { getNotificationsBubble } from "@/server/Notifications"
 
 export const SidebarLeft = async () => {
   const session = await getSession()
-
+  const notificationsBubble = await getNotificationsBubble({})
+  console.log(notificationsBubble)
   return <aside className="w-[280px] h-screen flex flex-col justify-between pb-10 max-xl:hidden rounded-tr-lg rounded-br-lg bg-white dark:bg-[#121212]">
     <div className="flex flex-col">
         <div className="relative">
@@ -19,7 +20,7 @@ export const SidebarLeft = async () => {
             <span className="text-sm text-gray-500 text-center">@{session?.user?.name}</span>
         </div>
         
-        <Links sessionId={session?.user?.id || ""}/>
+        <Links sessionId={session?.user?.id || ""} notificationsBubble={notificationsBubble?.data}/>
         <ButtonCreatePost />
     </div>
 

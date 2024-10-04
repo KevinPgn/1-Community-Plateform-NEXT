@@ -109,7 +109,7 @@ export const repostPost = authenticatedAction
                 }),
                 prisma.notification.create({
                     data: {
-                        userId: post.authorId,
+                        userId: userId,
                         type: "REPOST",
                         content: `${userId} reposted your post`,
                         relatedId: postId,
